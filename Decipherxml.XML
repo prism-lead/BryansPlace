@@ -3,7 +3,6 @@
   alt="Typing Tool"
   autosaveKey="psid"
   browserDupes=""
-  builder:wizardCompleted="1"
   builderCompatible="1"
   compat="146"
   delphi="1"
@@ -20,9 +19,7 @@
   ss:enableNavigation="0"
   ss:hideProgressBar="1"
   state="testing"
-  theme="frozen:user/116957/dpi_project_temp"
   version="19"
-  xmlns:builder="http://www.decipherinc.com/builder"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:ss="http://www.decipherinc.com/ss">
 
@@ -36,9 +33,9 @@
 <samplesources default="0">
   <samplesource list="0">
     <title>Open Survey</title>
-    <exit code="1" cond="qualified"><b>Thank you for completing the survey!</b></exit>
-    <exit code="2" cond="terminated"><b>Thank you for your time.</b></exit>
-    <exit code="3" cond="overquota"><b>Thank you for your time.</b></exit>
+    <exit cond="qualified"><b>Thank you for completing the survey!</b></exit>
+    <exit cond="terminated"><b>Thank you for your time.</b></exit>
+    <exit cond="overquota"><b>Thank you for your time.</b></exit>
   </samplesource>
 </samplesources>
 
@@ -330,6 +327,8 @@
   <row label="r3">Independent</row>
   <row label="r4">Other</row>
 </radio>
+
+<suspend/>
 
 <radio label="QS5A" optional="1" cond="QS5.r1 or QS5.r2">
   <title>Would you say you are a strong or not-so strong [pipe: QS5]?</title>
