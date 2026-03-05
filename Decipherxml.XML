@@ -39,8 +39,8 @@
   </samplesource>
 </samplesources>
 
-<html label="survey_header" where="survey"><![CDATA[
-<style>
+<style name="respview.client.css" mode="after"><![CDATA[
+<style type="text/css">
 #q_QS1.question, #q_QZIP.question, #q_QAGE.question,
 #q_QGENDER.question, #q_QVOTE24.question,
 #q_QS5.question, #q_QS5A.question, #q_QS5B.question {
@@ -346,7 +346,7 @@
 }
 .sc-continue-ready .nextPage { display: inline-block !important; }
 </style>
-]]></html>
+]]></style>
 
 
 
