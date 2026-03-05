@@ -346,8 +346,176 @@
 .sc-continue-ready .nextPage { display: inline-block !important; }
 ]]></style>
 
+<style name="respview.client.js" mode="after"><![CDATA[
+jQuery(document).ready(function(){
+  var defined = function(s,c){ return (c||document).querySelector(s); };
+  var definedAll = function(s,c){ return [].slice.call((c||document).querySelectorAll(s)); };
 
+  var CARDS = ['card-intro','card-qs1','card-qzip','card-qage','card-qgender','card-qvote24','card-party'];
+  var cur = 0;
+  var total = CARDS.length - 1;
 
+  /* ---- hide native Decipher questions ---- */
+  ['QS1','QZIP','QAGE','QGENDER','QVOTE24','QS5','QS5A','QS5B'].forEach(function(q){
+    var el = document.getElementById('q_'+q);
+    if(el) el.classList.add('sc-native-hidden');
+  });
+
+  /* ---- write back to native Decipher inputs ---- */
+  function setRadio(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[value="'+val+'"]');
+    if(inp){ inp.checked=true; try{ inp.click(); }catch(e){} }
+  }
+  function setText(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[type="text"]');
+    if(inp){ inp.value=val; jQuery(inp).trigger('change'); }
+  }
+  function setNumber(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[type="text"],input[type="number"]');
+    if(inp){ inp.value=val; jQuery(inp).trigger('change'); }
+  }
+
+  /* ---- card navigation ---- */
+  function showCard(idx){
+    CARDS.forEach(function(id,i){
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(i===0){ el.style.display = idx===0 ? 'block' : 'none'; }
+      else { el.style.display = i<=idx ? 'block' : 'none'; }
+    });
+    updateProgress();
+  }
+  function advance(){
+    if(cur < CARDS.length-1){ cur++; showCard(cur); }
+    var last = document.getElementById(CARDS[cur]);
+    if(last) last.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function updateProgress(){
+    var wrap = document.getElementById('sc-progress-wrap');
+    var fill = document.getElementById('sc-progress-fill');
+    var lbl  = document.getElementById('sc-progress-label');
+    if(!wrap||!fill) return;
+    if(cur>0){
+      wrap.style.display='block';
+      var pct = Math.round((cur/total)*100);
+      fill.style.width = pct+'%';
+      if(lbl) lbl.textContent = pct+'% COMPLETE';
+    }
+  }
+  function enableNext(){
+    jQuery('body').addClass('sc-continue-ready');
+    jQuery('.survey-buttons,.buttons').addClass('sc-continue-ready');
+  }
+
+  showCard(0);
+
+  /* INTRO */
+  jQuery('#sc-start-btn').on('click', function(){ advance(); });
+
+  /* QS1 - registered to vote */
+  jQuery('#card-qs1').on('click', '.qs1-btn', function(){
+    jQuery('#card-qs1 .qs1-btn').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    setRadio('QS1', jQuery(this).attr('data-val'));
+    setTimeout(advance, 350);
+  });
+
+  /* QZIP - zip code digits */
+  var zipD = definedAll('#card-qzip .zip-digit');
+  jQuery('#card-qzip').on('input', '.zip-digit', function(){
+    var idx = zipD.indexOf(this);
+    if(this.value.length===1 && idx<zipD.length-1) zipD[idx+1].focus();
+    jQuery(this).toggleClass('zip-filled', this.value.length>0);
+    var full = jQuery.map(zipD, function(d){return d.value;}).join('');
+    if(full.length===5){ setText('QZIP', full); setTimeout(advance, 400); }
+  });
+  jQuery('#card-qzip').on('keydown', '.zip-digit', function(e){
+    var idx = zipD.indexOf(this);
+    if(e.key==='Backspace' && !this.value && idx>0) zipD[idx-1].focus();
+  });
+  jQuery('#zip-pna').on('change', function(){
+    if(this.checked){
+      jQuery(zipD).val('').prop('disabled',true).removeClass('zip-filled');
+      setText('QZIP','');
+      setTimeout(advance, 350);
+    } else { jQuery(zipD).prop('disabled',false); }
+  });
+  jQuery('.zip-why-trigger').on('click', function(){
+    jQuery('.zip-why-body').toggle();
+  });
+
+  /* QAGE - age digits */
+  var ageD = definedAll('#card-qage .age-digit');
+  jQuery('#card-qage').on('input', '.age-digit', function(){
+    var idx = ageD.indexOf(this);
+    if(this.value.length===1 && idx<ageD.length-1) ageD[idx+1].focus();
+    jQuery(this).toggleClass('age-filled', this.value.length>0);
+    var full = jQuery.map(ageD, function(d){return d.value;}).join('');
+    if(full.length===2){ setNumber('QAGE', full); setTimeout(advance, 400); }
+  });
+  jQuery('#card-qage').on('keydown', '.age-digit', function(e){
+    var idx = ageD.indexOf(this);
+    if(e.key==='Backspace' && !this.value && idx>0) ageD[idx-1].focus();
+  });
+  jQuery('#age-pna').on('change', function(){
+    if(this.checked){
+      jQuery(ageD).val('').prop('disabled',true).removeClass('age-filled');
+      setNumber('QAGE','');
+      setTimeout(advance, 350);
+    } else { jQuery(ageD).prop('disabled',false); }
+  });
+
+  /* QGENDER - ballot */
+  jQuery('#ballot-gender').on('click', '.ballot-row', function(){
+    jQuery('#ballot-gender .ballot-row').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    setRadio('QGENDER', jQuery(this).attr('data-val'));
+    setTimeout(advance, 350);
+  });
+
+  /* QVOTE24 - ballot */
+  jQuery('#ballot-vote24').on('click', '.ballot-row', function(){
+    jQuery('#ballot-vote24 .ballot-row').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    setRadio('QVOTE24', jQuery(this).attr('data-val'));
+    setTimeout(advance, 350);
+  });
+
+  /* QS5 / QS5A / QS5B - party identification */
+  jQuery('#card-party').on('click', '.party-main-btn', function(){
+    jQuery('#card-party .party-main-btn').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    var v = jQuery(this).attr('data-val');
+    setRadio('QS5', v);
+    if(v==='1'||v==='2'){
+      jQuery('#party-sub-a').show();
+      jQuery('#qs5a-pipe').text(v==='1' ? 'Republican' : 'Democrat');
+      jQuery('#party-sub-b').hide();
+    } else {
+      jQuery('#party-sub-a').hide();
+      jQuery('#party-sub-b').show();
+    }
+  });
+  jQuery('#party-sub-a').on('click', '.party-sub-btn', function(){
+    jQuery('#party-sub-a .party-sub-btn').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    setRadio('QS5A', jQuery(this).attr('data-val'));
+    enableNext();
+  });
+  jQuery('#party-sub-b').on('click', '.party-lean-btn', function(){
+    jQuery('#party-sub-b .party-lean-btn').removeClass('sc-sel');
+    jQuery(this).addClass('sc-sel');
+    setRadio('QS5B', jQuery(this).attr('data-val'));
+    enableNext();
+  });
+});
+]]></style>
 
 <html label="sc_page_ui" where="survey"><![CDATA[
 
@@ -584,206 +752,6 @@
 
 </div>
 
-<script>
-(function(){
-  var CARDS = ['card-intro','card-qs1','card-qzip','card-qage','card-qgender','card-qvote24','card-party'];
-  var cur = 0;
-  var total = CARDS.length - 1;
-
-  function $(s,c){ return (c||document).querySelector(s); }
-  function $$(s,c){ return [].slice.call((c||document).querySelectorAll(s)); }
-
-  /* ---- hide native Decipher questions ---- */
-  function hideNative(){
-    ['QS1','QZIP','QAGE','QGENDER','QVOTE24','QS5','QS5A','QS5B'].forEach(function(q){
-      var el = document.getElementById('q_'+q);
-      if(el) el.classList.add('sc-native-hidden');
-    });
-  }
-
-  /* ---- write back to native Decipher inputs ---- */
-  function setRadio(q, val){
-    var box = document.getElementById('q_'+q);
-    if(!box) return;
-    var inp = box.querySelector('input[value="'+val+'"]');
-    if(inp){ inp.checked=true; try{inp.click();}catch(e){} }
-  }
-  function setText(q, val){
-    var box = document.getElementById('q_'+q);
-    if(!box) return;
-    var inp = box.querySelector('input[type="text"]');
-    if(inp){ inp.value=val; inp.dispatchEvent(new Event('change',{bubbles:true})); }
-  }
-  function setNumber(q, val){
-    var box = document.getElementById('q_'+q);
-    if(!box) return;
-    var inp = box.querySelector('input[type="text"],input[type="number"]');
-    if(inp){ inp.value=val; inp.dispatchEvent(new Event('change',{bubbles:true})); }
-  }
-
-  /* ---- card navigation ---- */
-  function showCard(idx){
-    CARDS.forEach(function(id,i){
-      var el = document.getElementById(id);
-      if(!el) return;
-      if(i===0){ el.style.display = idx===0 ? 'block' : 'none'; }
-      else { el.style.display = i<=idx ? 'block' : 'none'; }
-    });
-    updateProgress();
-  }
-  function advance(){
-    if(cur < CARDS.length-1){ cur++; showCard(cur); }
-    var last = document.getElementById(CARDS[cur]);
-    if(last) last.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  function updateProgress(){
-    var wrap = document.getElementById('sc-progress-wrap');
-    var fill = document.getElementById('sc-progress-fill');
-    var lbl  = document.getElementById('sc-progress-label');
-    if(!wrap||!fill) return;
-    if(cur>0){
-      wrap.style.display='block';
-      var pct = Math.round((cur/total)*100);
-      fill.style.width = pct+'%';
-      if(lbl) lbl.textContent = pct+'% COMPLETE';
-    }
-  }
-  function enableNext(){
-    document.body.classList.add('sc-continue-ready');
-    var bw = $('.buttons,.survey-buttons');
-    if(bw) bw.classList.add('sc-continue-ready');
-  }
-
-  /* ---- init ---- */
-  function init(){
-    hideNative();
-    showCard(0);
-
-    /* INTRO */
-    var startBtn = document.getElementById('sc-start-btn');
-    if(startBtn) startBtn.addEventListener('click', function(){ advance(); });
-
-    /* QS1 – registered to vote */
-    $$('#card-qs1 .qs1-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        $$('#card-qs1 .qs1-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
-        btn.classList.add('sc-sel');
-        setRadio('QS1', btn.getAttribute('data-val'));
-        setTimeout(advance, 350);
-      });
-    });
-
-    /* QZIP – zip code digits */
-    var zipD = $$('#card-qzip .zip-digit');
-    zipD.forEach(function(inp,i){
-      inp.addEventListener('input', function(){
-        if(inp.value.length===1 && i<zipD.length-1) zipD[i+1].focus();
-        inp.classList.toggle('zip-filled', inp.value.length>0);
-        var full = zipD.map(function(d){return d.value;}).join('');
-        if(full.length===5){ setText('QZIP', full); setTimeout(advance, 400); }
-      });
-      inp.addEventListener('keydown', function(e){
-        if(e.key==='Backspace' && !inp.value && i>0) zipD[i-1].focus();
-      });
-    });
-    var zipPna = document.getElementById('zip-pna');
-    if(zipPna) zipPna.addEventListener('change', function(){
-      if(zipPna.checked){
-        zipD.forEach(function(d){ d.value=''; d.disabled=true; d.classList.remove('zip-filled'); });
-        setText('QZIP','');
-        setTimeout(advance, 350);
-      } else { zipD.forEach(function(d){ d.disabled=false; }); }
-    });
-    var whyBtn = $('.zip-why-trigger'), whyBody = $('.zip-why-body');
-    if(whyBtn && whyBody) whyBtn.addEventListener('click', function(){
-      whyBody.style.display = whyBody.style.display==='block' ? 'none' : 'block';
-    });
-
-    /* QAGE – age digits */
-    var ageD = $$('#card-qage .age-digit');
-    ageD.forEach(function(inp,i){
-      inp.addEventListener('input', function(){
-        if(inp.value.length===1 && i<ageD.length-1) ageD[i+1].focus();
-        inp.classList.toggle('age-filled', inp.value.length>0);
-        var full = ageD.map(function(d){return d.value;}).join('');
-        if(full.length===2){ setNumber('QAGE', full); setTimeout(advance, 400); }
-      });
-      inp.addEventListener('keydown', function(e){
-        if(e.key==='Backspace' && !inp.value && i>0) ageD[i-1].focus();
-      });
-    });
-    var agePna = document.getElementById('age-pna');
-    if(agePna) agePna.addEventListener('change', function(){
-      if(agePna.checked){
-        ageD.forEach(function(d){ d.value=''; d.disabled=true; d.classList.remove('age-filled'); });
-        setNumber('QAGE','');
-        setTimeout(advance, 350);
-      } else { ageD.forEach(function(d){ d.disabled=false; }); }
-    });
-
-    /* QGENDER – ballot */
-    $$('#ballot-gender .ballot-row').forEach(function(row){
-      row.addEventListener('click', function(){
-        $$('#ballot-gender .ballot-row').forEach(function(r){ r.classList.remove('sc-sel'); });
-        row.classList.add('sc-sel');
-        setRadio('QGENDER', row.getAttribute('data-val'));
-        setTimeout(advance, 350);
-      });
-    });
-
-    /* QVOTE24 – ballot */
-    $$('#ballot-vote24 .ballot-row').forEach(function(row){
-      row.addEventListener('click', function(){
-        $$('#ballot-vote24 .ballot-row').forEach(function(r){ r.classList.remove('sc-sel'); });
-        row.classList.add('sc-sel');
-        setRadio('QVOTE24', row.getAttribute('data-val'));
-        setTimeout(advance, 350);
-      });
-    });
-
-    /* QS5 / QS5A / QS5B – party identification */
-    $$('#card-party .party-main-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        $$('#card-party .party-main-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
-        btn.classList.add('sc-sel');
-        var v = btn.getAttribute('data-val');
-        setRadio('QS5', v);
-        var subA = document.getElementById('party-sub-a');
-        var subB = document.getElementById('party-sub-b');
-        if(v==='1'||v==='2'){
-          if(subA){ subA.style.display='block';
-            var pipe = document.getElementById('qs5a-pipe');
-            if(pipe) pipe.textContent = v==='1' ? 'Republican' : 'Democrat';
-          }
-          if(subB) subB.style.display='none';
-        } else {
-          if(subA) subA.style.display='none';
-          if(subB) subB.style.display='block';
-        }
-      });
-    });
-    $$('#party-sub-a .party-sub-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        $$('#party-sub-a .party-sub-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
-        btn.classList.add('sc-sel');
-        setRadio('QS5A', btn.getAttribute('data-val'));
-        enableNext();
-      });
-    });
-    $$('#party-sub-b .party-lean-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        $$('#party-sub-b .party-lean-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
-        btn.classList.add('sc-sel');
-        setRadio('QS5B', btn.getAttribute('data-val'));
-        enableNext();
-      });
-    });
-  }
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
-  else init();
-})();
-</script>
 ]]></html>
 
 
