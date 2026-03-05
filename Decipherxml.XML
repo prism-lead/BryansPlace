@@ -112,15 +112,15 @@
 
     <div class="zip-digits-row">
       <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 1">
+             autocomplete="off" aria-label="ZIP digit 1">
       <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 2">
+             autocomplete="off" aria-label="ZIP digit 2">
       <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 3">
+             autocomplete="off" aria-label="ZIP digit 3">
       <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 4">
+             autocomplete="off" aria-label="ZIP digit 4">
       <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 5">
+             autocomplete="off" aria-label="ZIP digit 5">
     </div>
 
     <div class="zip-why-row">
@@ -151,9 +151,9 @@
 
     <div class="age-digits-row">
       <input class="age-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="Age tens digit">
+             autocomplete="off" aria-label="Age tens digit">
       <input class="age-digit" type="tel" maxlength="1" inputmode="numeric"
-             pattern="[0-9]*" autocomplete="off" aria-label="Age units digit">
+             autocomplete="off" aria-label="Age units digit">
     </div>
 
     <label class="sc-pna-row">
