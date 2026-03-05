@@ -33,7 +33,16 @@
 <res label="PROMPTERROR1"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
 <res label="PROMPTERROR2"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
 
-<style after="Flag_prism" name="survey.header"><![CDATA[
+<samplesources default="0">
+  <samplesource list="0">
+    <title>Open Survey</title>
+    <exit code="1" cond="qualified"><b>Thank you for completing the survey!</b></exit>
+    <exit code="2" cond="terminated"><b>Thank you for your time.</b></exit>
+    <exit code="3" cond="overquota"><b>Thank you for your time.</b></exit>
+  </samplesource>
+</samplesources>
+
+<style name="survey.header"><![CDATA[
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
