@@ -40,6 +40,7 @@
 </samplesources>
 
 <style name="respview.client.css" mode="after"><![CDATA[
+<style>
 #q_QS1.question, #q_QZIP.question, #q_QAGE.question,
 #q_QGENDER.question, #q_QVOTE24.question,
 #q_QS5.question, #q_QS5A.question, #q_QS5B.question {
@@ -344,10 +345,10 @@
     display: none !important;
 }
 .sc-continue-ready .nextPage { display: inline-block !important; }
+</style>
 ]]></style>
 
-<style name="respview.client.js" mode="after"><![CDATA[
-jQuery(document).ready(function(){
+<style name="respview.client.js" mode="after" wrap="ready"><![CDATA[
   var defined = function(s,c){ return (c||document).querySelector(s); };
   var definedAll = function(s,c){ return [].slice.call((c||document).querySelectorAll(s)); };
 
@@ -514,7 +515,6 @@ jQuery(document).ready(function(){
     setRadio('QS5B', jQuery(this).attr('data-val'));
     enableNext();
   });
-});
 ]]></style>
 
 <html label="sc_page_ui" where="survey"><![CDATA[
