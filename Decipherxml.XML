@@ -583,6 +583,207 @@
   </div>
 
 </div>
+
+<script>
+(function(){
+  var CARDS = ['card-intro','card-qs1','card-qzip','card-qage','card-qgender','card-qvote24','card-party'];
+  var cur = 0;
+  var total = CARDS.length - 1;
+
+  function $(s,c){ return (c||document).querySelector(s); }
+  function $$(s,c){ return [].slice.call((c||document).querySelectorAll(s)); }
+
+  /* ---- hide native Decipher questions ---- */
+  function hideNative(){
+    ['QS1','QZIP','QAGE','QGENDER','QVOTE24','QS5','QS5A','QS5B'].forEach(function(q){
+      var el = document.getElementById('q_'+q);
+      if(el) el.classList.add('sc-native-hidden');
+    });
+  }
+
+  /* ---- write back to native Decipher inputs ---- */
+  function setRadio(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[value="'+val+'"]');
+    if(inp){ inp.checked=true; try{inp.click();}catch(e){} }
+  }
+  function setText(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[type="text"]');
+    if(inp){ inp.value=val; inp.dispatchEvent(new Event('change',{bubbles:true})); }
+  }
+  function setNumber(q, val){
+    var box = document.getElementById('q_'+q);
+    if(!box) return;
+    var inp = box.querySelector('input[type="text"],input[type="number"]');
+    if(inp){ inp.value=val; inp.dispatchEvent(new Event('change',{bubbles:true})); }
+  }
+
+  /* ---- card navigation ---- */
+  function showCard(idx){
+    CARDS.forEach(function(id,i){
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(i===0){ el.style.display = idx===0 ? 'block' : 'none'; }
+      else { el.style.display = i<=idx ? 'block' : 'none'; }
+    });
+    updateProgress();
+  }
+  function advance(){
+    if(cur < CARDS.length-1){ cur++; showCard(cur); }
+    var last = document.getElementById(CARDS[cur]);
+    if(last) last.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function updateProgress(){
+    var wrap = document.getElementById('sc-progress-wrap');
+    var fill = document.getElementById('sc-progress-fill');
+    var lbl  = document.getElementById('sc-progress-label');
+    if(!wrap||!fill) return;
+    if(cur>0){
+      wrap.style.display='block';
+      var pct = Math.round((cur/total)*100);
+      fill.style.width = pct+'%';
+      if(lbl) lbl.textContent = pct+'% COMPLETE';
+    }
+  }
+  function enableNext(){
+    document.body.classList.add('sc-continue-ready');
+    var bw = $('.buttons,.survey-buttons');
+    if(bw) bw.classList.add('sc-continue-ready');
+  }
+
+  /* ---- init ---- */
+  function init(){
+    hideNative();
+    showCard(0);
+
+    /* INTRO */
+    var startBtn = document.getElementById('sc-start-btn');
+    if(startBtn) startBtn.addEventListener('click', function(){ advance(); });
+
+    /* QS1 – registered to vote */
+    $$('#card-qs1 .qs1-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        $$('#card-qs1 .qs1-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
+        btn.classList.add('sc-sel');
+        setRadio('QS1', btn.getAttribute('data-val'));
+        setTimeout(advance, 350);
+      });
+    });
+
+    /* QZIP – zip code digits */
+    var zipD = $$('#card-qzip .zip-digit');
+    zipD.forEach(function(inp,i){
+      inp.addEventListener('input', function(){
+        if(inp.value.length===1 && i<zipD.length-1) zipD[i+1].focus();
+        inp.classList.toggle('zip-filled', inp.value.length>0);
+        var full = zipD.map(function(d){return d.value;}).join('');
+        if(full.length===5){ setText('QZIP', full); setTimeout(advance, 400); }
+      });
+      inp.addEventListener('keydown', function(e){
+        if(e.key==='Backspace' && !inp.value && i>0) zipD[i-1].focus();
+      });
+    });
+    var zipPna = document.getElementById('zip-pna');
+    if(zipPna) zipPna.addEventListener('change', function(){
+      if(zipPna.checked){
+        zipD.forEach(function(d){ d.value=''; d.disabled=true; d.classList.remove('zip-filled'); });
+        setText('QZIP','');
+        setTimeout(advance, 350);
+      } else { zipD.forEach(function(d){ d.disabled=false; }); }
+    });
+    var whyBtn = $('.zip-why-trigger'), whyBody = $('.zip-why-body');
+    if(whyBtn && whyBody) whyBtn.addEventListener('click', function(){
+      whyBody.style.display = whyBody.style.display==='block' ? 'none' : 'block';
+    });
+
+    /* QAGE – age digits */
+    var ageD = $$('#card-qage .age-digit');
+    ageD.forEach(function(inp,i){
+      inp.addEventListener('input', function(){
+        if(inp.value.length===1 && i<ageD.length-1) ageD[i+1].focus();
+        inp.classList.toggle('age-filled', inp.value.length>0);
+        var full = ageD.map(function(d){return d.value;}).join('');
+        if(full.length===2){ setNumber('QAGE', full); setTimeout(advance, 400); }
+      });
+      inp.addEventListener('keydown', function(e){
+        if(e.key==='Backspace' && !inp.value && i>0) ageD[i-1].focus();
+      });
+    });
+    var agePna = document.getElementById('age-pna');
+    if(agePna) agePna.addEventListener('change', function(){
+      if(agePna.checked){
+        ageD.forEach(function(d){ d.value=''; d.disabled=true; d.classList.remove('age-filled'); });
+        setNumber('QAGE','');
+        setTimeout(advance, 350);
+      } else { ageD.forEach(function(d){ d.disabled=false; }); }
+    });
+
+    /* QGENDER – ballot */
+    $$('#ballot-gender .ballot-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        $$('#ballot-gender .ballot-row').forEach(function(r){ r.classList.remove('sc-sel'); });
+        row.classList.add('sc-sel');
+        setRadio('QGENDER', row.getAttribute('data-val'));
+        setTimeout(advance, 350);
+      });
+    });
+
+    /* QVOTE24 – ballot */
+    $$('#ballot-vote24 .ballot-row').forEach(function(row){
+      row.addEventListener('click', function(){
+        $$('#ballot-vote24 .ballot-row').forEach(function(r){ r.classList.remove('sc-sel'); });
+        row.classList.add('sc-sel');
+        setRadio('QVOTE24', row.getAttribute('data-val'));
+        setTimeout(advance, 350);
+      });
+    });
+
+    /* QS5 / QS5A / QS5B – party identification */
+    $$('#card-party .party-main-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        $$('#card-party .party-main-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
+        btn.classList.add('sc-sel');
+        var v = btn.getAttribute('data-val');
+        setRadio('QS5', v);
+        var subA = document.getElementById('party-sub-a');
+        var subB = document.getElementById('party-sub-b');
+        if(v==='1'||v==='2'){
+          if(subA){ subA.style.display='block';
+            var pipe = document.getElementById('qs5a-pipe');
+            if(pipe) pipe.textContent = v==='1' ? 'Republican' : 'Democrat';
+          }
+          if(subB) subB.style.display='none';
+        } else {
+          if(subA) subA.style.display='none';
+          if(subB) subB.style.display='block';
+        }
+      });
+    });
+    $$('#party-sub-a .party-sub-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        $$('#party-sub-a .party-sub-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
+        btn.classList.add('sc-sel');
+        setRadio('QS5A', btn.getAttribute('data-val'));
+        enableNext();
+      });
+    });
+    $$('#party-sub-b .party-lean-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        $$('#party-sub-b .party-lean-btn').forEach(function(b){ b.classList.remove('sc-sel'); });
+        btn.classList.add('sc-sel');
+        setRadio('QS5B', btn.getAttribute('data-val'));
+        enableNext();
+      });
+    });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();
+</script>
 ]]></html>
 
 
@@ -626,15 +827,13 @@
   <row label="r4">Other</row>
 </radio>
 
-<suspend/>
-
-<radio label="QS5A" optional="1" cond="QS5.r1 or QS5.r2">
+<radio label="QS5A" optional="1">
   <title>Would you say you are a strong or not-so strong [pipe: QS5]?</title>
   <row label="r1">Strong</row>
   <row label="r2">Not so strong</row>
 </radio>
 
-<radio label="QS5B" optional="1" cond="QS5.r3 or QS5.r4">
+<radio label="QS5B" optional="1">
   <title>Do you lean towards the Republican or Democratic Party?</title>
   <row label="r1">Lean Republican</row>
   <row label="r2">Lean Democrat</row>
