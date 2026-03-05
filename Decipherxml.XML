@@ -668,7 +668,7 @@
         Your ZIP code helps us ensure we're hearing from people across different parts
         of the country, building a representative sample.
         <strong>FUN FACT:</strong> ZIP codes tie you to your congressional district, so we can ask
-        follow‑up questions about your community — they never reveal your name or exact address.
+        follow&#x2011;up questions about your community &#x2014; they never reveal your name or exact address.
       </div>
     </div>
 
@@ -757,14 +757,14 @@
       <div class="party-btn party-main-btn" data-val="1"
            tabindex="0" role="radio" aria-label="Republican">
         <img src="[rel icon-gop.svg]" alt="GOP"
-             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>🐘</span>'">
+             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>&#x1F418;</span>'">
         <span>Republican</span>
       </div>
 
       <div class="party-btn party-main-btn" data-val="2"
            tabindex="0" role="radio" aria-label="Democrat">
         <img src="[rel icon-dem.svg]" alt="DEM"
-             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>🫏</span>'">
+             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>&#x1FACF;</span>'">
         <span>Democrat</span>
       </div>
 
@@ -795,13 +795,13 @@
 
         <div class="party-lean-btn" data-val="1">
           <img src="[rel icon-gop.svg]" alt="GOP"
-               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>🐘</span>'">
+               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>&#x1F418;</span>'">
           <span>Republicans</span>
         </div>
 
         <div class="party-lean-btn" data-val="2">
           <img src="[rel icon-dem.svg]" alt="DEM"
-               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>🫏</span>'">
+               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>&#x1FACF;</span>'">
           <span>Democrats</span>
         </div>
 
