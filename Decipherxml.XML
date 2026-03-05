@@ -3,28 +3,18 @@
   alt="Typing Tool"
   autosaveKey="psid"
   browserDupes=""
-  builder:wizardCompleted="1"
   builderCompatible="1"
   compat="146"
   delphi="1"
   extraVariables="ipAddress,source,record,decLang,list,userAgent,md,comp_sflag"
   fir="on"
-  html:showNumber="0"
   mobile="compat"
   mobileDevices="smartphone,tablet,desktop"
   name="Survey"
-  remerged="20260217_01:38"
   secure="1"
   setup="term,decLang,quota,time"
-  ss:disableBackButton="1"
-  ss:enableNavigation="0"
-  ss:hideProgressBar="1"
   state="testing"
-  theme="frozen:user/116957/dpi_project_temp"
-  version="19"
-  xmlns:builder="http://www.decipherinc.com/builder"
-  xmlns:html="http://www.w3.org/1999/xhtml"
-  xmlns:ss="http://www.decipherinc.com/ss">
+  version="19">
 
 <res label="sys_check-error-atLeast-sing-column">You have left question(s) unanswered. Please provide an answer.</res>
 <res label="sys_noAnswerSelected">You have left question(s) unanswered. Please provide an answer.</res>
@@ -33,14 +23,6 @@
 <res label="PROMPTERROR1"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
 <res label="PROMPTERROR2"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
 
-<samplesources default="0">
-  <samplesource list="0">
-    <title>Open Survey</title>
-    <exit code="1" cond="qualified"><b>Thank you for completing the survey!</b></exit>
-    <exit code="2" cond="terminated"><b>Thank you for your time.</b></exit>
-    <exit code="3" cond="overquota"><b>Thank you for your time.</b></exit>
-  </samplesource>
-</samplesources>
 
 <html label="survey_header" where="survey"><![CDATA[
 <style>
@@ -210,6 +192,144 @@
     box-shadow: 0 0 0 3px rgba(25,25,112,.15);
 }
 .zip-digit.zip-filled { background: #f0f4ff; border-color: #191970; }
+.zip-why-row { margin-bottom: 10px; }
+.zip-why-trigger {
+    background: none; border: none; padding: 0; cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12.5px; color: #777; font-family: Inter, sans-serif;
+}
+.zip-why-icon {
+    width: 20px; height: 20px; background: #aaa; color: #fff;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+.zip-why-body {
+    display: none; margin-top: 6px; padding: 10px 14px;
+    background: #f0f4ff;
+    border-left: 3px solid #191970; border-radius: 0 8px 8px 0;
+    font-size: 12.5px; line-height: 1.55; color: #444;
+    font-family: Inter, sans-serif;
+}
+.sc-pna-row {
+    display: flex; align-items: center; gap: 9px;
+    margin-top: 12px; cursor: pointer;
+    font-size: 12.5px; color: #888;
+    font-family: Inter, sans-serif; user-select: none;
+}
+.sc-pna-chk { width: 17px; height: 17px; accent-color: #191970; cursor: pointer; }
+.age-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
+.age-digit {
+    width: 58px; height: 70px;
+    border: 2px solid #ccc; border-radius: 8px;
+    font-size: 30px; font-weight: 700;
+    text-align: center; color: #333;
+    background: #f5f5f5; outline: none;
+    transition: border-color .18s, box-shadow .18s, background .18s;
+}
+.age-digit:focus { border-color: #555; background: #fff; box-shadow: 0 0 0 3px rgba(80,80,80,.12); }
+.age-digit.age-filled { background: #f0f0f0; border-color: #777; }
+.age-instruction { font-size: 12px; color: #aaa; margin: -10px 0 12px; font-family: Inter, sans-serif; }
+.ballot-card-inner {
+    border: 2px solid #444; border-radius: 3px;
+    padding: 10px 12px 10px 22px;
+    background: #fff; position: relative; overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+}
+.ballot-edge-bars {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
+    display: flex; flex-direction: column;
+    justify-content: space-around; padding: 6px 0;
+    pointer-events: none;
+}
+.ballot-edge-bar { height: 6px; background: #111; border-radius: 1px; }
+.ballot-row {
+    display: flex; align-items: center;
+    padding: 7px 0; border-bottom: 1px dotted #bbb;
+    cursor: pointer; position: relative;
+    transition: background .12s;
+}
+.ballot-row:last-child { border-bottom: none; }
+.ballot-row:hover { background: rgba(0,0,0,.03); }
+.ballot-oval-wrap { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
+.ballot-oval {
+    width: 38px; height: 19px;
+    border: 2.5px solid #333; border-radius: 50%;
+    background: transparent;
+    transition: background .15s;
+}
+.ballot-row.sc-sel .ballot-oval { background: #222; }
+.ballot-label {
+    font-size: 13.5px; color: #1a1a1a; font-weight: 600;
+    letter-spacing: .02em; line-height: 1.3; padding-left: 4px; flex: 1;
+}
+.ballot-label .party-tag { font-size: 11px; color: #888; font-weight: 400; margin-left: 5px; }
+.party-main-btns {
+    display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap; margin-bottom: 6px;
+}
+.party-btn {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px; cursor: pointer;
+    padding: 14px 20px; border: 2px solid #e0e0e0;
+    border-radius: 13px; min-width: 84px; background: #fff;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.party-btn:hover { border-color: #191970; box-shadow: 0 4px 14px rgba(25,25,112,.14); }
+.party-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
+.party-btn img { width: 50px; height: 50px; object-fit: contain; }
+.party-btn > span { font-size: 12px; font-weight: 700; letter-spacing: .05em; color: #555; text-transform: uppercase; text-align: center; }
+.party-ind { min-width: unset !important; padding: 12px 22px !important; }
+.party-sub {
+    display: none; margin-top: 18px;
+    padding-top: 16px; border-top: 1px solid #e8e8e8;
+    animation: scReveal .3s ease forwards;
+}
+.party-sub .sc-q-text { font-size: 16px; margin-bottom: 14px; }
+.party-sub-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.party-sub-btn {
+    flex: 1; min-width: 120px; padding: 12px 14px;
+    border: 2px solid #ddd; border-radius: 10px;
+    background: #fff; cursor: pointer;
+    font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
+    color: #333; text-align: center;
+    transition: border-color .18s, background .18s;
+}
+.party-sub-btn:hover { border-color: #191970; }
+.party-sub-btn.sc-sel { border-color: #191970; background: #f0f4ff; color: #191970; }
+.party-lean-btns { display: flex; flex-direction: column; gap: 7px; }
+.party-lean-btn {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border: 2px solid #ddd; border-radius: 10px;
+    background: #fff; cursor: pointer;
+    transition: border-color .18s, background .18s;
+}
+.party-lean-btn:hover { border-color: #191970; }
+.party-lean-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
+.party-lean-btn img { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; }
+.party-lean-btn > span { font-size: 14px; font-weight: 600; color: #333; font-family: Inter, sans-serif; }
+#sc-footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: #f0f8ff;
+    border-top: 1px solid rgba(25,25,112,.10);
+    padding: 9px 20px;
+    text-align: center;
+    font-size: 10.5px; color: #aaa; font-family: Inter, sans-serif; line-height: 1.4;
+}
+.nextPage, input[type="submit"].button {
+    background: #191970 !important;
+    color: #fff !important; border: none !important;
+    border-radius: 7px !important;
+    padding: 13px 32px !important;
+    font-family: Inter, sans-serif !important;
+    font-size: 14px !important; font-weight: 700 !important;
+    letter-spacing: .06em !important; text-transform: uppercase !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 16px rgba(25,25,112,.28) !important;
+    transition: background .2s, transform .2s !important;
+    display: none !important;
+}
+.sc-continue-ready .nextPage { display: inline-block !important; }
 </style>
 ]]></html>
 
