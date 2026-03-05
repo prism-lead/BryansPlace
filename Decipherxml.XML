@@ -105,7 +105,7 @@ body, .survey-body, .main-content {
 #sc-progress-fill {
     height: 100%;
     width: 0%;
-    background: #1565C0;
+    background: #6B7F4E;
     border-radius: 3px;
     transition: width .45s cubic-bezier(.4,0,.2,1);
 }
@@ -266,7 +266,7 @@ body, .survey-body, .main-content {
     font-size: 12.5px; color: #999999;
     font-family: Inter, sans-serif; user-select: none;
 }
-.sc-pna-chk { width: 18px; height: 18px; accent-color: #4CAF50; cursor: pointer; }
+.sc-pna-chk { width: 18px; height: 18px; accent-color: #6B7F4E; cursor: pointer; }
 
 /* --- Age digits --- */
 .age-digits-row { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -333,7 +333,7 @@ body, .survey-body, .main-content {
     background: transparent;
     transition: background .15s;
 }
-.ballot-row.sc-sel .ballot-oval { background: #333; }
+.ballot-row.sc-sel .ballot-oval { background: #6B7F4E; }
 .ballot-label {
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px; color: #333333; font-weight: 600;
@@ -398,7 +398,7 @@ body, .survey-body, .main-content {
     transition: background .15s, border-color .15s;
     flex-shrink: 0;
 }
-.party-sub-radio.sc-sel .party-sub-circle { background: #4CAF50; border-color: #4CAF50; }
+.party-sub-radio.sc-sel .party-sub-circle { background: #6B7F4E; border-color: #6B7F4E; }
 .party-sub-radio > span {
     font-family: Inter, sans-serif; font-size: 15px; font-weight: 500; color: #333333;
 }
@@ -448,25 +448,27 @@ body, .survey-body, .main-content {
 }
 #sc-footer a { color: #6B7F4E; text-decoration: none; }
 
-/* --- Continue / Next button --- */
+/* --- Native continue/next button (hidden - we use custom) --- */
 .nextPage, .button {
-    background: #6B7F4E !important;
-    color: #fff !important; border: none !important;
-    border-radius: 24px !important;
-    padding: 14px 36px !important;
-    font-family: Inter, sans-serif !important;
-    font-size: 14px !important; font-weight: 700 !important;
-    letter-spacing: .08em !important; text-transform: uppercase !important;
-    cursor: pointer !important;
-    box-shadow: none !important;
-    transition: background .2s, transform .15s !important;
     display: none !important;
 }
-.nextPage:hover, .button:hover {
-    background: #5A6B42 !important;
-    transform: translateY(-1px) !important;
+/* --- Custom CONTINUE button --- */
+#sc-continue-btn {
+    background: #6B7F4E;
+    color: #fff; border: none;
+    border-radius: 24px;
+    padding: 14px 36px;
+    font-family: Inter, sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background .2s, transform .15s;
 }
-.sc-continue-ready .nextPage { display: inline-block !important; }
+#sc-continue-btn:hover {
+    background: #5A6B42;
+    transform: translateY(-1px);
+}
 </style>
 ]]></style>
 
@@ -532,8 +534,9 @@ body, .survey-body, .main-content {
     }
   }
   function enableNext(){
-    jQuery('body').addClass('sc-continue-ready');
-    jQuery('.survey-buttons,.buttons').addClass('sc-continue-ready');
+    jQuery('#sc-continue-wrap').show();
+    var wrap = document.getElementById('sc-continue-wrap');
+    if(wrap) wrap.scrollIntoView({behavior:'smooth',block:'center'});
   }
 
   showCard(0);
@@ -658,6 +661,12 @@ body, .survey-body, .main-content {
   });
   jQuery('#party-pna').on('change', function(){
     if(this.checked){ enableNext(); }
+  });
+
+  /* CONTINUE button — triggers native Decipher page submit (suspend) */
+  jQuery('#sc-continue-btn').on('click', function(){
+    var nxt = jQuery('.nextPage, .button[type="submit"], input[type="submit"]');
+    if(nxt.length){ nxt.first().click(); }
   });
 ]]></style>
 
@@ -911,6 +920,10 @@ body, .survey-body, .main-content {
       </label>
     </div>
 
+  </div>
+
+  <div id="sc-continue-wrap" style="display:none; text-align:center; padding:24px 0 16px;">
+    <button id="sc-continue-btn" type="button">CONTINUE &gt;</button>
   </div>
 
 </div>
