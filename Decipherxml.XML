@@ -40,12 +40,16 @@
 </samplesources>
 
 <style name="respview.client.css" mode="after"><![CDATA[
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
+/* --- page-level overrides --- */
+body, .survey-body, .main-content {
+    background: #F5F2ED !important;
+}
 #question_QS1.question, #question_QZIP.question, #question_QAGE.question,
 #question_QGENDER.question, #question_QVOTE24.question,
 #question_QS5.question, #question_QS5A.question, #question_QS5B.question {
-    border-top: none !important;
-    border-bottom: none !important;
+    border: none !important;
     box-shadow: none !important;
     background: transparent !important;
     padding: 0 !important;
@@ -65,89 +69,114 @@
 .sc-native-hidden .error {
     display: none !important;
 }
+
+/* --- root container --- */
 #sc-root {
-    max-width: 540px;
+    max-width: 640px;
     margin: 0 auto;
-    padding: 16px 16px 110px;
+    padding: 24px 16px 120px;
     font-family: Inter, sans-serif;
+    color: #333333;
 }
+
+/* --- PRISM logo top bar --- */
+.sc-logo-bar {
+    text-align: center;
+    padding: 12px 0 20px;
+}
+.sc-logo-bar img {
+    height: 40px;
+    width: auto;
+}
+
+/* --- progress bar --- */
 #sc-progress-wrap {
     position: sticky;
     top: 0; z-index: 200;
-    background: #f0f8ff;
-    padding: 8px 0 10px;
+    background: #F5F2ED;
+    padding: 8px 0 12px;
     display: none;
 }
 #sc-progress-track {
-    height: 4px;
-    background: rgba(25,25,112,.18);
-    border-radius: 2px;
+    height: 5px;
+    background: #E0E0E0;
+    border-radius: 3px;
 }
 #sc-progress-fill {
     height: 100%;
     width: 0%;
-    background: #191970;
-    border-radius: 2px;
+    background: #1565C0;
+    border-radius: 3px;
     transition: width .45s cubic-bezier(.4,0,.2,1);
 }
 #sc-progress-label {
     margin-top: 4px;
     text-align: right;
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: .05em;
-    color: rgba(25,25,112,.55);
+    color: #888888;
     font-weight: 600;
     text-transform: uppercase;
 }
+
+/* --- cards --- */
 .sc-card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 26px 24px 22px;
-    margin-bottom: 14px;
-    box-shadow: 0 2px 14px rgba(25,25,112,.10);
+    background: #FFFFFF;
+    border: 1px solid #E0DCD6;
+    border-radius: 10px;
+    padding: 22px 24px 20px;
+    margin-bottom: 28px;
+    box-shadow: none;
     display: none;
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity .38s cubic-bezier(.4,0,.2,1), transform .38s cubic-bezier(.4,0,.2,1);
 }
-.sc-card.sc-intro { display: block; padding: 32px 28px 28px; }
+.sc-card.sc-visible { display: block; }
+.sc-card.sc-intro {
+    display: block;
+    background: #F8F5F0;
+    padding: 28px 28px 26px;
+}
 .sc-card .sc-q-label {
-    font-size: 10px; font-weight: 700;
-    letter-spacing: .12em; text-transform: uppercase;
-    color: rgba(25,25,112,.4); margin-bottom: 6px;
+    font-family: Inter, sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: #888888; margin-bottom: 6px;
 }
 .sc-card .sc-q-text {
     font-family: Fraunces, Georgia, serif;
-    font-size: 18px; font-weight: 600;
-    color: #1a1a3a; line-height: 1.42;
+    font-size: 19px; font-weight: 700;
+    color: #333333; line-height: 1.42;
     margin-bottom: 20px;
 }
-.intro-logo-wrap { text-align: center; margin-bottom: 18px; }
-.intro-logo-wrap img { height: 42px; max-width: 160px; }
+
+/* --- intro card --- */
+.intro-logo-wrap { text-align: center; margin-bottom: 16px; }
+.intro-logo-wrap img { height: 48px; width: auto; }
 .intro-body {
     font-family: Fraunces, Georgia, serif;
-    font-size: 15.5px; color: #444;
+    font-size: 15px; color: #333333;
     text-align: center; line-height: 1.65;
     margin-bottom: 26px;
 }
-.intro-body em { font-style: italic; color: #191970; }
+.intro-body em { font-style: italic; color: #6B7F4E; }
+
+/* --- CTA / start button --- */
 #sc-start-btn {
     display: block; margin: 0 auto;
-    background: #191970; color: #fff;
-    border: none; border-radius: 40px;
-    padding: 13px 44px;
-    font-size: 15px; font-weight: 700;
+    background: #6B7F4E; color: #fff;
+    border: none; border-radius: 24px;
+    padding: 14px 48px;
+    font-size: 14px; font-weight: 700;
     letter-spacing: .1em; text-transform: uppercase;
     cursor: pointer; font-family: Inter, sans-serif;
-    transition: background .2s, transform .2s, box-shadow .2s;
-    box-shadow: 0 5px 18px rgba(25,25,112,.28);
+    transition: background .2s, transform .15s;
 }
 #sc-start-btn:hover {
-    background: #2626a0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(25,25,112,.38);
+    background: #5A6B42;
+    transform: translateY(-1px);
 }
-#sc-start-btn:disabled { background: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+#sc-start-btn:disabled { background: #999; cursor: not-allowed; transform: none; }
+
+/* --- QS1 yes/no/not-sure buttons --- */
 .qs1-btn-group {
     display: flex; gap: 14px;
     justify-content: center; align-items: flex-start;
@@ -162,121 +191,133 @@
     display: flex; align-items: center; justify-content: center;
     font-weight: 800;
     transition: transform .18s, box-shadow .18s;
-    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
 }
 .qs1-yes .qs1-shape {
     width: 78px; height: 78px; border-radius: 50%;
-    background: #2e7d32; color: #fff; font-size: 30px;
+    background: #2E7D32; color: #fff; font-size: 30px;
 }
 .qs1-no .qs1-shape {
     width: 78px; height: 78px; border-radius: 50%;
-    background: #c62828; color: #fff; font-size: 28px;
+    background: #C62828; color: #fff; font-size: 28px;
 }
 .qs1-ns .qs1-shape {
     width: 110px; height: 46px; border-radius: 10px;
-    background: #e0e0e0; color: #555;
+    background: #D5D0C8; color: #555;
     font-size: 13px; font-weight: 600;
-    box-shadow: 0 3px 10px rgba(0,0,0,.12);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 .qs1-btn-label {
     font-size: 11px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase; color: #888;
+    letter-spacing: .1em; text-transform: uppercase; color: #888888;
 }
 .qs1-btn:hover .qs1-shape, .qs1-btn:focus .qs1-shape {
-    transform: scale(1.08);
-    box-shadow: 0 7px 22px rgba(0,0,0,.24);
+    transform: scale(1.06);
+    box-shadow: 0 5px 16px rgba(0,0,0,.18);
 }
 .qs1-btn.sc-sel .qs1-shape {
-    box-shadow: 0 0 0 4px rgba(25,25,112,.3), 0 4px 14px rgba(0,0,0,.2);
+    box-shadow: 0 0 0 4px rgba(107,127,78,.35), 0 3px 10px rgba(0,0,0,.15);
 }
-.qs1-btn.sc-sel .qs1-btn-label { color: #191970; }
-.zip-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
+.qs1-btn.sc-sel .qs1-btn-label { color: #6B7F4E; }
+
+/* --- ZIP code digits --- */
+.zip-digits-row { display: flex; gap: 8px; margin-bottom: 14px; }
 .zip-digit {
     width: 54px; height: 66px;
-    border: 2.5px solid #bbb; border-radius: 9px;
+    border: 2px solid #D5D0C8; border-radius: 8px;
     font-size: 28px; font-weight: 700;
-    text-align: center; color: #191970;
-    background: #fafafa; outline: none;
-    caret-color: #191970;
+    text-align: center; color: #333333;
+    background: #E8E4DE; outline: none;
+    caret-color: #6B7F4E;
+    font-family: Inter, sans-serif;
     transition: border-color .18s, box-shadow .18s, background .18s;
 }
 .zip-digit:focus {
-    border-color: #191970; background: #fff;
-    box-shadow: 0 0 0 3px rgba(25,25,112,.15);
+    border-color: #6B7F4E; background: #fff;
+    box-shadow: 0 0 0 3px rgba(107,127,78,.18);
 }
-.zip-digit.zip-filled { background: #f0f4ff; border-color: #191970; }
+.zip-digit.zip-filled { background: #fff; border-color: #6B7F4E; }
+
+/* --- "Why we ask" callout --- */
 .zip-why-row { margin-bottom: 10px; }
 .zip-why-trigger {
     background: none; border: none; padding: 0; cursor: pointer;
     display: flex; align-items: center; gap: 7px;
-    font-size: 12.5px; color: #777; font-family: Inter, sans-serif;
+    font-size: 12.5px; color: #888888; font-family: Inter, sans-serif;
 }
 .zip-why-icon {
-    width: 20px; height: 20px; background: #aaa; color: #fff;
+    width: 20px; height: 20px; background: #D5D0C8; color: #555;
     border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 800; flex-shrink: 0;
 }
 .zip-why-body {
     display: none; margin-top: 6px; padding: 10px 14px;
-    background: #f0f4ff;
-    border-left: 3px solid #191970; border-radius: 0 8px 8px 0;
-    font-size: 12.5px; line-height: 1.55; color: #444;
+    background: #FFF9C4;
+    border-left: 3px solid #6B7F4E; border-radius: 0 8px 8px 0;
+    font-size: 12.5px; line-height: 1.55; color: #333333;
     font-family: Inter, sans-serif;
 }
+
+/* --- PNTA row --- */
 .sc-pna-row {
     display: flex; align-items: center; gap: 9px;
     margin-top: 12px; cursor: pointer;
-    font-size: 12.5px; color: #888;
+    font-size: 12.5px; color: #999999;
     font-family: Inter, sans-serif; user-select: none;
 }
-.sc-pna-chk { width: 17px; height: 17px; accent-color: #191970; cursor: pointer; }
-.age-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
+.sc-pna-chk { width: 18px; height: 18px; accent-color: #4CAF50; cursor: pointer; }
+
+/* --- Age digits --- */
+.age-digits-row { display: flex; gap: 8px; margin-bottom: 14px; }
 .age-digit {
     width: 58px; height: 70px;
-    border: 2px solid #ccc; border-radius: 8px;
+    border: 2px solid #D5D0C8; border-radius: 8px;
     font-size: 30px; font-weight: 700;
-    text-align: center; color: #333;
-    background: #f5f5f5; outline: none;
+    text-align: center; color: #333333;
+    background: #E8E4DE; outline: none;
+    font-family: Inter, sans-serif;
     transition: border-color .18s, box-shadow .18s, background .18s;
 }
-.age-digit:focus { border-color: #555; background: #fff; box-shadow: 0 0 0 3px rgba(80,80,80,.12); }
-.age-digit.age-filled { background: #f0f0f0; border-color: #777; }
-.age-instruction { font-size: 12px; color: #aaa; margin: -10px 0 12px; font-family: Inter, sans-serif; }
+.age-digit:focus { border-color: #6B7F4E; background: #fff; box-shadow: 0 0 0 3px rgba(107,127,78,.18); }
+.age-digit.age-filled { background: #fff; border-color: #6B7F4E; }
+.age-instruction {
+    font-size: 13px; color: #888888; margin: -10px 0 12px;
+    font-family: Inter, sans-serif;
+}
+
+/* --- Ballot-style cards (gender, vote) --- */
 .ballot-card-inner {
-    border: 2px solid #444; border-radius: 3px;
-    padding: 10px 12px 10px 22px;
+    border: 2px solid #E0DCD6; border-radius: 8px;
+    padding: 6px 12px 6px 12px;
     background: #fff; position: relative; overflow: hidden;
-    font-family: 'Courier New', Courier, monospace;
 }
-.ballot-edge-bars {
-    position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
-    display: flex; flex-direction: column;
-    justify-content: space-around; padding: 6px 0;
-    pointer-events: none;
-}
-.ballot-edge-bar { height: 6px; background: #111; border-radius: 1px; }
+.ballot-edge-bars { display: none; }
 .ballot-row {
     display: flex; align-items: center;
-    padding: 7px 0; border-bottom: 1px dotted #bbb;
+    padding: 12px 8px; border-bottom: 1px solid #E0DCD6;
     cursor: pointer; position: relative;
     transition: background .12s;
+    border-radius: 6px;
 }
 .ballot-row:last-child { border-bottom: none; }
-.ballot-row:hover { background: rgba(0,0,0,.03); }
-.ballot-oval-wrap { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
+.ballot-row:hover { background: rgba(107,127,78,.05); }
+.ballot-oval-wrap { width: 44px; flex-shrink: 0; display: flex; justify-content: center; }
 .ballot-oval {
-    width: 38px; height: 19px;
-    border: 2.5px solid #333; border-radius: 50%;
+    width: 30px; height: 30px;
+    border: 2.5px solid #D5D0C8; border-radius: 50%;
     background: transparent;
-    transition: background .15s;
+    transition: background .15s, border-color .15s;
 }
-.ballot-row.sc-sel .ballot-oval { background: #222; }
+.ballot-row.sc-sel .ballot-oval { background: #4CAF50; border-color: #4CAF50; }
 .ballot-label {
-    font-size: 13.5px; color: #1a1a1a; font-weight: 600;
-    letter-spacing: .02em; line-height: 1.3; padding-left: 4px; flex: 1;
+    font-family: Inter, sans-serif;
+    font-size: 15px; color: #333333; font-weight: 500;
+    line-height: 1.3; padding-left: 4px; flex: 1;
 }
-.ballot-label .party-tag { font-size: 11px; color: #888; font-weight: 400; margin-left: 5px; }
+.ballot-label .party-tag { font-size: 12px; color: #888888; font-weight: 400; margin-left: 5px; }
+
+/* --- Party ID --- */
 .party-main-btns {
     display: flex; gap: 16px;
     justify-content: center; flex-wrap: wrap; margin-bottom: 6px;
@@ -284,63 +325,71 @@
 .party-btn {
     display: flex; flex-direction: column;
     align-items: center; gap: 8px; cursor: pointer;
-    padding: 14px 20px; border: 2px solid #e0e0e0;
-    border-radius: 13px; min-width: 84px; background: #fff;
+    padding: 16px 20px; border: 2px solid #E0DCD6;
+    border-radius: 10px; min-width: 90px; background: #fff;
     transition: border-color .2s, box-shadow .2s, background .2s;
 }
-.party-btn:hover { border-color: #191970; box-shadow: 0 4px 14px rgba(25,25,112,.14); }
-.party-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
-.party-btn > span:first-child { display: block; }
-.party-btn > span { font-size: 12px; font-weight: 700; letter-spacing: .05em; color: #555; text-transform: uppercase; text-align: center; }
-.party-ind { min-width: unset !important; padding: 12px 22px !important; }
+.party-btn:hover { border-color: #6B7F4E; }
+.party-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; }
+.party-btn .party-icon { width: 44px; height: 44px; }
+.party-btn > span { font-family: Inter, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .05em; color: #333333; text-transform: uppercase; text-align: center; }
+.party-ind { min-width: unset !important; padding: 14px 22px !important; }
 .party-sub {
     display: none; margin-top: 18px;
-    padding-top: 16px; border-top: 1px solid #e8e8e8;
-    animation: scReveal .3s ease forwards;
+    padding-top: 16px; border-top: 1px solid #E0DCD6;
 }
 .party-sub .sc-q-text { font-size: 16px; margin-bottom: 14px; }
 .party-sub-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 .party-sub-btn {
     flex: 1; min-width: 120px; padding: 12px 14px;
-    border: 2px solid #ddd; border-radius: 10px;
+    border: 2px solid #E0DCD6; border-radius: 8px;
     background: #fff; cursor: pointer;
     font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
-    color: #333; text-align: center;
+    color: #333333; text-align: center;
     transition: border-color .18s, background .18s;
 }
-.party-sub-btn:hover { border-color: #191970; }
-.party-sub-btn.sc-sel { border-color: #191970; background: #f0f4ff; color: #191970; }
-.party-lean-btns { display: flex; flex-direction: column; gap: 7px; }
+.party-sub-btn:hover { border-color: #6B7F4E; }
+.party-sub-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; color: #5A6B42; }
+.party-lean-btns { display: flex; flex-direction: column; gap: 8px; }
 .party-lean-btn {
     display: flex; align-items: center; gap: 12px;
-    padding: 10px 14px; border: 2px solid #ddd; border-radius: 10px;
+    padding: 12px 14px; border: 2px solid #E0DCD6; border-radius: 8px;
     background: #fff; cursor: pointer;
     transition: border-color .18s, background .18s;
 }
-.party-lean-btn:hover { border-color: #191970; }
-.party-lean-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
-.party-lean-btn > span:first-child { flex-shrink: 0; }
-.party-lean-btn > span { font-size: 14px; font-weight: 600; color: #333; font-family: Inter, sans-serif; }
+.party-lean-btn:hover { border-color: #6B7F4E; }
+.party-lean-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; }
+.party-lean-btn .party-icon { width: 28px; height: 28px; flex-shrink: 0; }
+.party-lean-btn > span { font-size: 14px; font-weight: 600; color: #333333; font-family: Inter, sans-serif; }
+
+/* --- Footer --- */
 #sc-footer {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: #f0f8ff;
-    border-top: 1px solid rgba(25,25,112,.10);
-    padding: 9px 20px;
+    background: #F5F2ED;
+    border-top: 1px solid #E0DCD6;
+    padding: 10px 20px;
     text-align: center;
-    font-size: 10.5px; color: #aaa; font-family: Inter, sans-serif; line-height: 1.4;
+    font-size: 10px; color: #AAAAAA; font-family: Inter, sans-serif; line-height: 1.4;
 }
+#sc-footer a { color: #6B7F4E; text-decoration: none; }
+
+/* --- Continue / Next button --- */
 .nextPage, .button {
-    background: #191970 !important;
+    background: #6B7F4E !important;
     color: #fff !important; border: none !important;
-    border-radius: 7px !important;
-    padding: 13px 32px !important;
+    border-radius: 24px !important;
+    padding: 14px 36px !important;
     font-family: Inter, sans-serif !important;
     font-size: 14px !important; font-weight: 700 !important;
-    letter-spacing: .06em !important; text-transform: uppercase !important;
+    letter-spacing: .08em !important; text-transform: uppercase !important;
     cursor: pointer !important;
-    box-shadow: 0 4px 16px rgba(25,25,112,.28) !important;
-    transition: background .2s, transform .2s !important;
+    box-shadow: none !important;
+    transition: background .2s, transform .15s !important;
     display: none !important;
+}
+.nextPage:hover, .button:hover {
+    background: #5A6B42 !important;
+    transform: translateY(-1px) !important;
 }
 .sc-continue-ready .nextPage { display: inline-block !important; }
 </style>
@@ -519,11 +568,15 @@
 
 <div id="sc-footer">
   Your responses are held strictly confidential.
-  See our <a href="#" style="color:#191970;text-decoration:none;">Privacy Policy</a>
+  See our <a href="#">Privacy Policy</a>
   and commitment to research ethics and integrity.
 </div>
 
 <div id="sc-root">
+
+  <div class="sc-logo-bar">
+    <img src="[rel PRISM_glyph.svg]" alt="PRISM">
+  </div>
 
   <div id="sc-progress-wrap">
     <div id="sc-progress-track"><div id="sc-progress-fill"></div></div>
@@ -532,7 +585,7 @@
 
   <div class="sc-card sc-intro" id="card-intro">
     <div class="intro-logo-wrap">
-      <span style="font-size:28px;font-weight:800;letter-spacing:.15em;color:#191970;">PRISM</span>
+      <img src="[rel PRISM_glyph.svg]" alt="PRISM">
     </div>
     <p class="intro-body">
       Thanks for taking part. This survey helps us understand how people
@@ -540,7 +593,7 @@
       right or wrong answers&thinsp;&mdash;&thinsp;we&rsquo;re interested
       in&nbsp;<em>your</em>&nbsp;point of view.<br><br>Let&rsquo;s begin.
     </p>
-    <button id="sc-start-btn" type="button">READY. GET. GO!</button>
+    <button id="sc-start-btn" type="button">READY, SET, GO!</button>
   </div>
 
   <div class="sc-card" id="card-qs1">
@@ -569,7 +622,7 @@
   <div class="sc-card" id="card-qzip">
     <div class="sc-q-label">2 of 6 Questions</div>
     <div class="sc-q-text">Please enter your 5-digit Zip Code</div>
-    <p style="font-size:12.5px;color:#888;margin:-12px 0 14px;font-family:Inter,sans-serif;">
+    <p style="font-size:13px;color:#888888;margin:-12px 0 14px;font-family:Inter,sans-serif;">
       (the Zip Code of your primary residence where you are registered to vote)
     </p>
 
@@ -594,7 +647,7 @@
         </span>
       </button>
       <div class="zip-why-body">
-        Your ZIP code helps us ensure we're hearing from people across different parts
+        Your ZIP code helps us ensure we&rsquo;re hearing from people across different parts
         of the country, building a representative sample.
         <strong>FUN FACT:</strong> ZIP codes tie you to your congressional district, so we can ask
         follow&#x2011;up questions about your community &#x2014; they never reveal your name or exact address.
@@ -609,7 +662,7 @@
 
   <div class="sc-card" id="card-qage">
     <div class="sc-q-label">3 of 6 Questions</div>
-    <div class="sc-q-text">What is your age?</div>
+    <div class="sc-q-text">Tell us how old you are.</div>
     <div class="age-instruction">Enter two digits &mdash; e.g., &ldquo;4&rdquo; then &ldquo;5&rdquo; for age 45</div>
 
     <div class="age-digits-row">
@@ -627,10 +680,9 @@
 
   <div class="sc-card" id="card-qgender">
     <div class="sc-q-label">4 of 6 Questions</div>
-    <div class="sc-q-text">Which of the following best describes your <strong>gender?</strong></div>
+    <div class="sc-q-text">Which of the following best describes your gender?</div>
 
     <div class="ballot-card-inner" id="ballot-gender">
-      <div class="ballot-edge-bars"></div>
 
       <div class="ballot-row" data-val="1">
         <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
@@ -652,7 +704,6 @@
     <div class="sc-q-text">Who did you vote for in the latest&nbsp;(2024) Presidential election?</div>
 
     <div class="ballot-card-inner" id="ballot-vote24">
-      <div class="ballot-edge-bars"></div>
 
       <div class="ballot-row" data-val="1">
         <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
@@ -685,20 +736,20 @@
 
       <div class="party-btn party-main-btn" data-val="1"
            tabindex="0" role="radio" aria-label="Republican">
-        <span style="font-size:30px;line-height:1">&#x1F418;</span>
+        <img class="party-icon" src="[rel GOP_Icon.svg]" alt="GOP">
         <span>Republican</span>
       </div>
 
       <div class="party-btn party-main-btn" data-val="2"
            tabindex="0" role="radio" aria-label="Democrat">
-        <span style="font-size:30px;line-height:1">&#x1F434;</span>
+        <img class="party-icon" src="[rel DEM_icon.svg]" alt="DEM">
         <span>Democrat</span>
       </div>
 
       <div class="party-btn party-ind party-main-btn" data-val="3"
            tabindex="0" role="radio" aria-label="Independent / Other">
         <span style="font-size:11px;font-weight:700;letter-spacing:.05em;
-                     color:#555;text-transform:uppercase;text-align:center;
+                     color:#333333;text-transform:uppercase;text-align:center;
                      line-height:1.4;">
           Independent/<br>Other
         </span>
@@ -721,20 +772,19 @@
       <div class="party-lean-btns">
 
         <div class="party-lean-btn" data-val="1">
-          <span style="font-size:22px">&#x1F418;</span>
+          <img class="party-icon" src="[rel GOP_Icon.svg]" alt="GOP">
           <span>Republicans</span>
         </div>
 
         <div class="party-lean-btn" data-val="2">
-          <span style="font-size:22px">&#x1F434;</span>
+          <img class="party-icon" src="[rel DEM_icon.svg]" alt="DEM">
           <span>Democrats</span>
         </div>
 
         <div class="party-lean-btn" data-val="3"
-             style="border-style:dashed; opacity:.85;">
-          <span style="font-size:22px;line-height:1;margin-right:4px;
-                       font-family:'Space Mono',monospace;font-weight:700;
-                       color:#888;">NO</span>
+             style="border-style:dashed;">
+          <span style="font-size:13px;font-weight:700;color:#999999;
+                       font-family:Inter,sans-serif;">Neither</span>
           <span>I do not lean toward either</span>
         </div>
 
