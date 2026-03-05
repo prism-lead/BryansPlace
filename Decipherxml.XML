@@ -42,7 +42,7 @@
   </samplesource>
 </samplesources>
 
-<style name="survey.header"><![CDATA[
+<html label="survey_header" where="survey"><![CDATA[
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -589,7 +589,7 @@
     });
 }(jQuery));
 </script>
-]]></style>
+]]></html>
 
 
 
