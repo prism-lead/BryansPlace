@@ -1016,5 +1016,398 @@ setMarker('Screened-QS5')
   Voted for someone else and is Independent
 </term>
 
+
+<!-- ===================== PAGE GROUP 3 — MaxDiff ===================== -->
+
+<style name="respview.client.css" mode="after"><![CDATA[
+<style>
+/* --- page.group.3 — MaxDiff page --- */
+
+/* reuse page-level bg */
+body, .survey-body, .main-content { background: #F5F2ED !important; }
+
+/* hide native MaxDiff questions */
+.md-native-hidden .question-text,
+.md-native-hidden .comment,
+.md-native-hidden .instruction-text,
+.md-native-hidden .answers-list,
+.md-native-hidden .fir-row,
+.md-native-hidden .row-elements,
+.md-native-hidden .noanswer-row,
+.md-native-hidden .error { display: none !important; }
+
+/* --- md root --- */
+#md-root {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px 120px;
+    font-family: Inter, sans-serif;
+    color: #333333;
+}
+
+/* --- md logo --- */
+.md-logo-bar { text-align: center; padding: 12px 0 20px; }
+.md-logo-bar img { height: 40px; width: auto; }
+
+/* --- md progress --- */
+#md-progress-wrap {
+    position: sticky; top: 0; z-index: 200;
+    background: #F5F2ED; padding: 8px 0 4px; display: none;
+}
+#md-progress-track { height: 5px; background: #E0E0E0; border-radius: 3px; }
+#md-progress-fill {
+    height: 100%; width: 0%;
+    background: #6B7F4E; border-radius: 3px;
+    transition: width .45s cubic-bezier(.4,0,.2,1);
+}
+.md-progress-labels {
+    display: flex; justify-content: space-between;
+    margin-top: 4px; font-size: 11px; font-weight: 600;
+    letter-spacing: .05em; text-transform: uppercase; color: #888888;
+}
+
+/* --- md intro card --- */
+.md-intro {
+    background: #F8F5F0; border: 1px solid #E0DCD6; border-radius: 10px;
+    padding: 28px 28px 26px; margin-bottom: 28px; text-align: center;
+}
+.md-intro-logo { margin-bottom: 16px; }
+.md-intro-logo img { height: 48px; width: auto; }
+.md-intro-body {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 15px; color: #333333;
+    text-align: center; line-height: 1.65; margin-bottom: 26px;
+}
+.md-intro-body strong { font-weight: 700; }
+#md-start-btn {
+    display: inline-block; background: #6B7F4E; color: #fff;
+    border: none; border-radius: 24px; padding: 14px 48px;
+    font-size: 14px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; cursor: pointer;
+    font-family: Inter, sans-serif;
+    transition: background .2s, transform .15s;
+}
+#md-start-btn:hover { background: #5A6B42; transform: translateY(-1px); }
+
+/* --- md card container --- */
+.md-card {
+    background: #fff; border: 1px solid #E0DCD6; border-radius: 10px;
+    padding: 22px 24px 20px; margin-bottom: 28px;
+    display: none;
+}
+.md-card.md-visible { display: block; }
+.md-card-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: #888888; margin-bottom: 6px;
+    text-align: right;
+}
+.md-card-title {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 17px; font-weight: 700; color: #333333;
+    line-height: 1.42; margin-bottom: 8px;
+}
+.md-card-instruct {
+    font-size: 13px; color: #555; text-align: center;
+    margin-bottom: 14px; line-height: 1.5;
+}
+.md-card-instruct .md-arrow-best {
+    color: #6B7F4E; font-weight: 700; margin-right: 4px;
+}
+.md-card-instruct .md-arrow-worst {
+    color: #C62828; font-weight: 700; margin-left: 4px;
+}
+
+/* --- column headers --- */
+.md-col-headers {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 4px; margin-bottom: 6px;
+}
+.md-col-h {
+    font-size: 10px; font-weight: 800; letter-spacing: .06em;
+    text-transform: uppercase; color: #6B7F4E; text-align: center;
+    width: 60px; line-height: 1.3;
+}
+.md-col-h-worst { color: #C62828; }
+
+/* --- statement rows --- */
+.md-row {
+    display: flex; align-items: center;
+    padding: 12px 4px; border-bottom: 1px solid #EDE9E3;
+    transition: background .15s;
+}
+.md-row:last-child { border-bottom: none; }
+
+.md-btn-col {
+    width: 60px; flex-shrink: 0;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.md-statement {
+    flex: 1; text-align: center;
+    font-family: Fraunces, Georgia, serif;
+    font-size: 14px; color: #333333; line-height: 1.45;
+    padding: 0 6px;
+}
+
+/* --- big spherical radio buttons --- */
+.md-orb {
+    width: 40px; height: 40px;
+    border: 3px solid #D5D0C8; border-radius: 50%;
+    background: #fff; cursor: pointer;
+    transition: background .18s, border-color .18s, box-shadow .18s, transform .12s;
+    position: relative;
+}
+.md-orb:hover {
+    transform: scale(1.08);
+}
+.md-orb-best:hover {
+    border-color: #6B7F4E;
+    box-shadow: 0 0 0 4px rgba(107,127,78,.15);
+}
+.md-orb-worst:hover {
+    border-color: #C62828;
+    box-shadow: 0 0 0 4px rgba(198,40,40,.12);
+}
+.md-orb.md-sel-best {
+    background: #6B7F4E; border-color: #6B7F4E;
+    box-shadow: inset 0 -3px 6px rgba(0,0,0,.2), 0 2px 8px rgba(107,127,78,.3);
+}
+.md-orb.md-sel-worst {
+    background: #C62828; border-color: #C62828;
+    box-shadow: inset 0 -3px 6px rgba(0,0,0,.2), 0 2px 8px rgba(198,40,40,.25);
+}
+
+/* row highlight when selected */
+.md-row.md-row-best { background: rgba(107,127,78,.06); border-radius: 8px; }
+.md-row.md-row-worst { background: rgba(198,40,40,.04); border-radius: 8px; }
+
+/* --- md footer (shared) --- */
+#md-footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: #F5F2ED; border-top: 1px solid #E0DCD6;
+    padding: 10px 20px; text-align: center;
+    font-size: 10px; color: #AAA; font-family: Inter, sans-serif; line-height: 1.4;
+}
+#md-footer a { color: #6B7F4E; text-decoration: none; }
+
+/* --- md continue button --- */
+#md-continue-wrap {
+    display: none; text-align: center; padding: 24px 0 16px;
+}
+#md-continue-btn {
+    background: #6B7F4E; color: #fff; border: none;
+    border-radius: 24px; padding: 14px 36px;
+    font-family: Inter, sans-serif; font-size: 14px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    cursor: pointer; transition: background .2s, transform .15s;
+}
+#md-continue-btn:hover { background: #5A6B42; transform: translateY(-1px); }
+
+/* hide native buttons */
+.nextPage, .button { display: none !important; }
+</style>
+]]></style>
+
+<style name="respview.client.js" mode="after" wrap="ready"><![CDATA[
+
+  /* ---- MaxDiff page logic ---- */
+  var defined = function(s,c){ return (c||document).querySelector(s); };
+  var definedAll = function(s,c){ return [].slice.call((c||document).querySelectorAll(s)); };
+
+  /* ---- show intro first, hide card ---- */
+  var mdIntro = document.getElementById('md-intro');
+  var mdCard  = document.getElementById('md-card-1');
+
+  jQuery('#md-start-btn').on('click', function(){
+    jQuery('#md-intro').hide();
+    jQuery('#md-card-1').addClass('md-visible');
+    jQuery('#md-progress-wrap').show();
+  });
+
+  /* ---- MaxDiff selection logic ---- */
+  var bestRow = null;
+  var worstRow = null;
+
+  function clearMdSelections(){
+    jQuery('#md-card-1 .md-orb').removeClass('md-sel-best md-sel-worst');
+    jQuery('#md-card-1 .md-row').removeClass('md-row-best md-row-worst');
+    bestRow = null;
+    worstRow = null;
+    jQuery('#md-continue-wrap').hide();
+  }
+
+  function checkMdComplete(){
+    if(bestRow !== null && worstRow !== null){
+      jQuery('#md-continue-wrap').show();
+      var wrap = document.getElementById('md-continue-wrap');
+      if(wrap) wrap.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+
+  /* Best (MOST LIKE ME) click */
+  jQuery('#md-card-1').on('click', '.md-orb-best', function(){
+    var row = jQuery(this).closest('.md-row');
+    var rowIdx = row.attr('data-row');
+
+    /* cannot pick same row as worst */
+    if(rowIdx === worstRow) return;
+
+    /* clear previous best */
+    jQuery('#md-card-1 .md-orb-best').removeClass('md-sel-best');
+    jQuery('#md-card-1 .md-row').removeClass('md-row-best');
+
+    jQuery(this).addClass('md-sel-best');
+    row.addClass('md-row-best');
+    bestRow = rowIdx;
+
+    checkMdComplete();
+  });
+
+  /* Worst (LEAST LIKE ME) click */
+  jQuery('#md-card-1').on('click', '.md-orb-worst', function(){
+    var row = jQuery(this).closest('.md-row');
+    var rowIdx = row.attr('data-row');
+
+    /* cannot pick same row as best */
+    if(rowIdx === bestRow) return;
+
+    /* clear previous worst */
+    jQuery('#md-card-1 .md-orb-worst').removeClass('md-sel-worst');
+    jQuery('#md-card-1 .md-row').removeClass('md-row-worst');
+
+    jQuery(this).addClass('md-sel-worst');
+    row.addClass('md-row-worst');
+    worstRow = rowIdx;
+
+    checkMdComplete();
+  });
+
+  /* CONTINUE — submit page (suspend) */
+  jQuery('#md-continue-btn').on('click', function(){
+    var nxt = jQuery('.nextPage, .button[type="submit"], input[type="submit"]');
+    if(nxt.length){ nxt.first().click(); }
+  });
+
+]]></style>
+
+<html label="md_page_ui"><![CDATA[
+
+<div id="md-footer">
+  Your responses are held strictly confidential.
+  See our <a href="#">Privacy Policy</a>
+  and commitment to research ethics and integrity.
+</div>
+
+<div id="md-root">
+
+  <div class="md-logo-bar">
+    <img src="[rel PRISM_glyph.svg]" alt="PRISM">
+  </div>
+
+  <div id="md-progress-wrap">
+    <div id="md-progress-track"><div id="md-progress-fill" style="width:33%"></div></div>
+    <div class="md-progress-labels">
+      <span>SECTION 2: POLITICAL IDENTITY</span>
+      <span>3 of 9 Questions</span>
+    </div>
+  </div>
+
+  <!-- MaxDiff Intro -->
+  <div class="md-intro" id="md-intro">
+    <div class="md-intro-logo">
+      <img src="[rel PRISM_glyph.svg]" alt="PRISM">
+    </div>
+    <p class="md-intro-body">
+      In this section we&#x2019;ll ask about a mix of political and social issues.
+      Some questions may feel personal, and some statements you may agree with
+      strongly and others not so much. Always just go with your first, honest reaction.
+    </p>
+    <p class="md-intro-body">
+      You&#x2019;ll see a series of cards, each with [four / five] statements. On each
+      card, choose the one that sounds <strong>most</strong> like you and the one that
+      sounds <strong>least</strong> like you.
+    </p>
+    <p class="md-intro-body">
+      Some statements may show up again&#x2014;that&#x2019;s intentional. There are no
+      right or wrong answers. Go with the statement that feels most true&#x2014;
+      and most familiar&#x2014;to you.
+    </p>
+    <button id="md-start-btn" type="button">ENJOY!</button>
+  </div>
+
+  <!-- MaxDiff Card 1 (static placeholder — looping TBD) -->
+  <div class="md-card" id="md-card-1">
+    <div class="md-card-label">1 of 9 Cards</div>
+    <div class="md-card-title">
+      From the set of short statements expressing different points
+      of view about politics, culture and health.
+    </div>
+    <div class="md-card-instruct">
+      <span class="md-arrow-best">&#x2B05;</span>
+      Select one statement that sounds MOST like your own point of view, and
+      the one statement that sounds LEAST like you
+      <span class="md-arrow-worst">&#x27A1;</span>
+    </div>
+
+    <!-- Column headers -->
+    <div class="md-col-headers">
+      <div class="md-col-h">MOST<br>LIKE ME</div>
+      <div style="flex:1;"></div>
+      <div class="md-col-h md-col-h-worst">LEAST<br>LIKE ME</div>
+    </div>
+
+    <!-- Statement rows -->
+    <div class="md-row" data-row="1">
+      <div class="md-btn-col"><span class="md-orb md-orb-best"></span></div>
+      <div class="md-statement">
+        Tech and data can improve care, but only if we stop bias,
+        protect privacy, and provide benefits fairly.
+      </div>
+      <div class="md-btn-col"><span class="md-orb md-orb-worst"></span></div>
+    </div>
+
+    <div class="md-row" data-row="2">
+      <div class="md-btn-col"><span class="md-orb md-orb-best"></span></div>
+      <div class="md-statement">
+        Corporate greed hurts ordinary people. Government must crack
+        down on prices, ads, and junk food.
+      </div>
+      <div class="md-btn-col"><span class="md-orb md-orb-worst"></span></div>
+    </div>
+
+    <div class="md-row" data-row="3">
+      <div class="md-btn-col"><span class="md-orb md-orb-best"></span></div>
+      <div class="md-statement">
+        Healthcare is a human right. We need Medicare-for-All or
+        something very close to it.
+      </div>
+      <div class="md-btn-col"><span class="md-orb md-orb-worst"></span></div>
+    </div>
+
+    <div class="md-row" data-row="4">
+      <div class="md-btn-col"><span class="md-orb md-orb-best"></span></div>
+      <div class="md-statement">
+        My faith calls me to fight for the poor and for broader
+        access&#x2014;especially in under-served communities.
+      </div>
+      <div class="md-btn-col"><span class="md-orb md-orb-worst"></span></div>
+    </div>
+
+  </div>
+
+  <div id="md-continue-wrap">
+    <button id="md-continue-btn" type="button">CONTINUE &gt;</button>
+  </div>
+
+</div>
+
+]]></html>
+
+<!-- placeholder for actual MaxDiff Decipher questions — looping TBD -->
+<note>MaxDiff loop questions will be added here</note>
+
+<suspend/>
+
+
 </survey>
 
