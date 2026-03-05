@@ -490,7 +490,15 @@ body, .survey-body, .main-content {
   function setRadio(q, val){
     var box = document.getElementById('question_'+q);
     if(!box) return;
-    var inp = box.querySelector('input[value="'+val+'"]');
+    /* try value attr first, then row-label format (r1, r2, r99…) */
+    var inp = box.querySelector('input[type="radio"][value="'+val+'"]')
+           || box.querySelector('input[type="radio"][value="r'+val+'"]');
+    if(!inp){
+      /* fallback: nth radio by 1-based index */
+      var all = box.querySelectorAll('input[type="radio"]');
+      var idx = parseInt(val,10);
+      if(idx>0 && idx<=all.length) inp = all[idx-1];
+    }
     if(inp){ inp.checked=true; try{ inp.click(); }catch(e){} }
   }
   function setText(q, val){
@@ -965,23 +973,23 @@ body, .survey-body, .main-content {
 
 <radio label="QS5" optional="1">
   <title>In politics today, do you consider yourself a&#x2026;?</title>
-  <row label="r1">Republican</row>
-  <row label="r2">Democrat</row>
-  <row label="r3">Independent</row>
-  <row label="r4">Other</row>
+  <row label="r1" value="1">Republican</row>
+  <row label="r2" value="2">Democrat</row>
+  <row label="r3" value="3">Independent</row>
+  <row label="r4" value="4">Other</row>
 </radio>
 
 <radio label="QS5A" optional="1">
   <title>Would you say you are a strong or not-so strong [pipe: QS5]?</title>
-  <row label="r1">Strong</row>
-  <row label="r2">Not so strong</row>
+  <row label="r1" value="1">Strong</row>
+  <row label="r2" value="2">Not so strong</row>
 </radio>
 
 <radio label="QS5B" optional="1">
   <title>Do you lean towards the Republican or Democratic Party?</title>
-  <row label="r1">Lean Republican</row>
-  <row label="r2">Lean Democrat</row>
-  <row label="r3">Neither Party</row>
+  <row label="r1" value="1">Lean Republican</row>
+  <row label="r2" value="2">Lean Democrat</row>
+  <row label="r3" value="3">Neither Party</row>
 </radio>
 
 
