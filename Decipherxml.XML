@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<survey
+  alt="Typing Tool"
+  autosaveKey="psid"
+  browserDupes=""
+  builder:wizardCompleted="1"
+  builderCompatible="1"
+  compat="146"
+  delphi="1"
+  extraVariables="ipAddress,source,record,decLang,list,userAgent,md,comp_sflag"
+  fir="on"
+  html:showNumber="0"
+  mobile="compat"
+  mobileDevices="smartphone,tablet,desktop"
+  name="Survey"
+  remerged="20260217_01:38"
+  secure="1"
+  setup="term,decLang,quota,time"
+  ss:disableBackButton="1"
+  ss:enableNavigation="0"
+  ss:hideProgressBar="1"
+  state="testing"
+  theme="frozen:user/116957/dpi_project_temp"
+  version="19"
+  xmlns:builder="http://www.decipherinc.com/builder"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:ss="http://www.decipherinc.com/ss">
+
+<res label="sys_check-error-atLeast-sing-column">You have left question(s) unanswered. Please provide an answer.</res>
+<res label="sys_noAnswerSelected">You have left question(s) unanswered. Please provide an answer.</res>
+<res label="sys_survey.has-errors">You have left some questions unanswered. You will find the items that need you attention shown below.</res>
+<res label="PROMPTERROR"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+<res label="PROMPTERROR1"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+<res label="PROMPTERROR2"><strong>You have left question(s) unanswered.  Are you sure you do not have an opinion?  If not, you can skip to the next question.</strong></res>
+
+<style after="Flag_prism" name="survey.header"><![CDATA[
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+
+
+#q_QS1.question,  #q_QZIP.question,  #q_QAGE.question,
+#q_QGENDER.question, #q_QVOTE24.question,
+#q_QS5.question,  #q_QS5A.question,  #q_QS5B.question {
+    border-top:    none !important;
+    border-bottom: none !important;
+    box-shadow:    none !important;
+    background:    transparent !important;
+    padding:       0 !important;
+    margin:        0 !important;
+    min-height:    0 !important;
+    overflow:      visible !important;
+}
+
+.sc-native-hidden .question-text,
+.sc-native-hidden .comment,
+.sc-native-hidden .instruction-text,
+.sc-native-hidden .answers-list,
+.sc-native-hidden .fir-row,
+.sc-native-hidden .row-elements,
+.sc-native-hidden .text-box-container,
+.sc-native-hidden .number-box,
+.sc-native-hidden .noanswer-row,
+.sc-native-hidden .error {
+    display: none !important;
+}
+
+#sc-root {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 16px 16px 110px;
+    font-family: Inter, sans-serif;
+}
+
+
+#sc-progress-wrap {
+    position: sticky;
+    top: 0; z-index: 200;
+    background: var(--bg1, #f0f8ff);
+    padding: 8px 0 10px;
+    display: none;
+}
+#sc-progress-track {
+    height: 4px;
+    background: rgba(25,25,112,.18);
+    border-radius: 2px;
+}
+#sc-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #191970;
+    border-radius: 2px;
+    transition: width .45s cubic-bezier(.4,0,.2,1);
+}
+#sc-progress-label {
+    margin-top: 4px;
+    text-align: right;
+    font-size: 10.5px;
+    letter-spacing: .05em;
+    color: rgba(25,25,112,.55);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+
+.sc-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 24px 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 14px rgba(25,25,112,.10);
+    display: none;
+    animation: scReveal .38s cubic-bezier(.4,0,.2,1) forwards;
+}
+.sc-card.sc-intro { display: block; padding: 32px 28px 28px; }
+
+@keyframes scReveal {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0);   }
+}
+.sc-card .sc-q-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(25,25,112,.4); margin-bottom: 6px;
+}
+.sc-card .sc-q-text {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 18px; font-weight: 600;
+    color: #1a1a3a; line-height: 1.42;
+    margin-bottom: 20px;
+}
+
+
+.intro-logo-wrap { text-align: center; margin-bottom: 18px; }
+.intro-logo-wrap img { height: 42px; max-width: 160px; }
+.intro-body {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 15.5px; color: #444;
+    text-align: center; line-height: 1.65;
+    margin-bottom: 26px;
+}
+.intro-body em { font-style: italic; color: #191970; }
+#sc-start-btn {
+    display: block; margin: 0 auto;
+    background: #191970; color: #fff;
+    border: none; border-radius: 40px;
+    padding: 13px 44px;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    cursor: pointer; font-family: Inter, sans-serif;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 5px 18px rgba(25,25,112,.28);
+}
+#sc-start-btn:hover {
+    background: #2626a0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(25,25,112,.38);
+}
+#sc-start-btn:disabled { background: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.qs1-btn-group {
+    display: flex; gap: 14px;
+    justify-content: center; align-items: flex-start;
+    flex-wrap: wrap; padding-top: 4px;
+}
+.qs1-btn {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 7px;
+    cursor: pointer; user-select: none; outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.qs1-shape {
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    transition: transform .18s, box-shadow .18s;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+}
+.qs1-yes .qs1-shape {
+    width: 78px; height: 78px; border-radius: 50%;
+    background: #2e7d32; color: #fff; font-size: 30px;
+}
+.qs1-no .qs1-shape {
+    width: 78px; height: 78px; border-radius: 50%;
+    background: #c62828; color: #fff; font-size: 28px;
+}
+.qs1-ns .qs1-shape {
+    width: 110px; height: 46px; border-radius: 10px;
+    background: #e0e0e0; color: #555;
+    font-size: 13px; font-weight: 600;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
+}
+.qs1-btn-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: #888;
+}
+.qs1-btn:hover .qs1-shape, .qs1-btn:focus .qs1-shape {
+    transform: scale(1.08);
+    box-shadow: 0 7px 22px rgba(0,0,0,.24);
+}
+.qs1-btn.sc-sel .qs1-shape {
+    box-shadow: 0 0 0 4px rgba(25,25,112,.3), 0 4px 14px rgba(0,0,0,.2);
+}
+.qs1-btn.sc-sel .qs1-btn-label { color: #191970; }
+
+.zip-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
+.zip-digit {
+    width: 54px; height: 66px;
+    border: 2.5px solid #bbb; border-radius: 9px;
+    font-family: 'Space Mono', monospace;
+    font-size: 28px; font-weight: 700;
+    text-align: center; color: #191970;
+    background: #fafafa; outline: none;
+    caret-color: #191970;
+    transition: border-color .18s, box-shadow .18s, background .18s;
+    -moz-appearance: textfield;
+}
+.zip-digit::-webkit-inner-spin-button,
+.zip-digit::-webkit-outer-spin-button { -webkit-appearance: none; }
+.zip-digit:focus {
+    border-color: #191970; background: #fff;
+    box-shadow: 0 0 0 3px rgba(25,25,112,.15);
+}
+.zip-digit.zip-filled { background: #f0f4ff; border-color: #191970; }
+
+.zip-why-row { margin-bottom: 10px; }
+.zip-why-trigger {
+    background: none; border: none; padding: 0; cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12.5px; color: #777; font-family: Inter, sans-serif;
+}
+.zip-why-icon {
+    width: 20px; height: 20px; background: #aaa; color: #fff;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+.zip-why-body {
+    display: none; margin-top: 6px; padding: 10px 14px;
+    background: #f0f4ff;
+    border-left: 3px solid #191970; border-radius: 0 8px 8px 0;
+    font-size: 12.5px; line-height: 1.55; color: #444;
+    font-family: Inter, sans-serif;
+}
+.sc-pna-row {
+    display: flex; align-items: center; gap: 9px;
+    margin-top: 12px; cursor: pointer;
+    font-size: 12.5px; color: #888;
+    font-family: Inter, sans-serif; user-select: none;
+}
+.sc-pna-chk { width: 17px; height: 17px; accent-color: #191970; cursor: pointer; }
+
+.age-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
+.age-digit {
+    width: 58px; height: 70px;
+    border: 2px solid #ccc; border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 30px; font-weight: 700;
+    text-align: center; color: #333;
+    background: #f5f5f5; outline: none;
+    transition: border-color .18s, box-shadow .18s, background .18s;
+    -moz-appearance: textfield;
+}
+.age-digit::-webkit-inner-spin-button,
+.age-digit::-webkit-outer-spin-button { -webkit-appearance: none; }
+.age-digit:focus { border-color: #555; background: #fff; box-shadow: 0 0 0 3px rgba(80,80,80,.12); }
+.age-digit.age-filled { background: #f0f0f0; border-color: #777; }
+.age-instruction { font-size: 12px; color: #aaa; margin: -10px 0 12px; font-family: Inter, sans-serif; }
+
+.ballot-card-inner {
+    border: 2px solid #444; border-radius: 3px;
+    padding: 10px 12px 10px 22px;
+    background: #fff; position: relative; overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+}
+.ballot-edge-bars {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
+    display: flex; flex-direction: column;
+    justify-content: space-around; padding: 6px 0;
+    pointer-events: none;
+}
+.ballot-edge-bar { height: 6px; background: #111; border-radius: 1px; }
+
+.ballot-row {
+    display: flex; align-items: center;
+    padding: 7px 0; border-bottom: 1px dotted #bbb;
+    cursor: pointer; position: relative;
+    transition: background .12s;
+    -webkit-tap-highlight-color: transparent;
+}
+.ballot-row:last-child { border-bottom: none; }
+.ballot-row:hover { background: rgba(0,0,0,.03); }
+
+.ballot-oval-wrap { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
+.ballot-oval {
+    width: 38px; height: 19px;
+    border: 2.5px solid #333; border-radius: 50%;
+    background: transparent;
+    transition: background .15s;
+}
+.ballot-row.sc-sel .ballot-oval { background: #222; }
+.ballot-label {
+    font-size: 13.5px; color: #1a1a1a; font-weight: 600;
+    letter-spacing: .02em; line-height: 1.3; padding-left: 4px; flex: 1;
+}
+.ballot-label .party-tag { font-size: 11px; color: #888; font-weight: 400; margin-left: 5px; }
+
+.party-main-btns {
+    display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap; margin-bottom: 6px;
+}
+.party-btn {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px; cursor: pointer;
+    padding: 14px 20px; border: 2px solid #e0e0e0;
+    border-radius: 13px; min-width: 84px; background: #fff;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    -webkit-tap-highlight-color: transparent;
+}
+.party-btn:hover { border-color: #191970; box-shadow: 0 4px 14px rgba(25,25,112,.14); }
+.party-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
+.party-btn img { width: 50px; height: 50px; object-fit: contain; }
+.party-btn > span { font-size: 12px; font-weight: 700; letter-spacing: .05em; color: #555; text-transform: uppercase; text-align: center; }
+.party-ind { min-width: unset !important; padding: 12px 22px !important; }
+
+.party-sub {
+    display: none; margin-top: 18px;
+    padding-top: 16px; border-top: 1px solid #e8e8e8;
+    animation: scReveal .3s ease forwards;
+}
+.party-sub .sc-q-text { font-size: 16px; margin-bottom: 14px; }
+
+.party-sub-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.party-sub-btn {
+    flex: 1; min-width: 120px; padding: 12px 14px;
+    border: 2px solid #ddd; border-radius: 10px;
+    background: #fff; cursor: pointer;
+    font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
+    color: #333; text-align: center;
+    transition: border-color .18s, background .18s;
+    -webkit-tap-highlight-color: transparent;
+}
+.party-sub-btn:hover { border-color: #191970; }
+.party-sub-btn.sc-sel { border-color: #191970; background: #f0f4ff; color: #191970; }
+
+.party-lean-btns { display: flex; flex-direction: column; gap: 7px; }
+.party-lean-btn {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border: 2px solid #ddd; border-radius: 10px;
+    background: #fff; cursor: pointer;
+    transition: border-color .18s, background .18s;
+    -webkit-tap-highlight-color: transparent;
+}
+.party-lean-btn:hover { border-color: #191970; }
+.party-lean-btn.sc-sel { border-color: #191970; background: #f0f4ff; }
+.party-lean-btn img { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; }
+.party-lean-btn > span { font-size: 14px; font-weight: 600; color: #333; font-family: Inter, sans-serif; }
+
+#sc-footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: var(--bg1, #f0f8ff);
+    border-top: 1px solid rgba(25,25,112,.10);
+    padding: 9px 20px;
+    text-align: center;
+    font-size: 10.5px; color: #aaa; font-family: Inter, sans-serif; line-height: 1.4;
+}
+.nextPage, input[type="submit"].button {
+    background: #191970 !important;
+    color: #fff !important; border: none !important;
+    border-radius: 7px !important;
+    padding: 13px 32px !important;
+    font-family: Inter, sans-serif !important;
+    font-size: 14px !important; font-weight: 700 !important;
+    letter-spacing: .06em !important; text-transform: uppercase !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 16px rgba(25,25,112,.28) !important;
+    transition: background .2s, transform .2s !important;
+    display: none !important;
+}
+.sc-continue-ready .nextPage { display: inline-block !important; }
+</style>
+
+<script>
+(function ($) {
+    'use strict';
+
+    var TOTAL_STEPS = 6;
+    var stepsRevealed = 0;
+    var done = { QS1:false, QZIP:false, QAGE:false, QGENDER:false, QVOTE24:false, PARTY:false };
+
+    function revealCard (id) {
+        var $c = $('#' + id);
+        if ($c.is(':visible')) return;
+        stepsRevealed++;
+        $c.show();
+        updateProgress();
+        $('html,body').animate({ scrollTop: $c.offset().top - 80 }, 460, 'swing');
+    }
+
+    function updateProgress () {
+        var pct = Math.round(stepsRevealed / TOTAL_STEPS * 100);
+        $('#sc-progress-fill').css('width', pct + '%');
+        $('#sc-progress-label').text(stepsRevealed + ' of ' + TOTAL_STEPS + ' Questions');
+    }
+
+    function allDone () {
+        return done.QS1 && done.QZIP && done.QAGE && done.QGENDER && done.QVOTE24 && done.PARTY;
+    }
+
+    function checkContinue () {
+        if (allDone()) {
+            $('body').addClass('sc-continue-ready');
+        }
+    }
+
+    function makeBallotBars (wrapperId) {
+        var $wrap  = $(wrapperId + ' .ballot-edge-bars').empty();
+        var nRows  = $(wrapperId + ' .ballot-row').length;
+        for (var i = 0; i < nRows + 2; i++) {
+            $wrap.append(
+                $('<div class="ballot-edge-bar">').css('width', (Math.random() * 8 + 4) + 'px')
+            );
+        }
+    }
+
+    $(document).ready(function () {
+
+        ['QS1','QZIP','QAGE','QGENDER','QVOTE24','QS5','QS5A','QS5B'].forEach(function (lbl) {
+            $('#q_' + lbl).addClass('sc-native-hidden');
+        });
+
+        makeBallotBars('#ballot-gender');
+        makeBallotBars('#ballot-vote24');
+
+        $('#sc-start-btn').on('click', function () {
+            $(this).prop('disabled', true).text("Let's go!");
+            $('#sc-progress-wrap').slideDown(280);
+            revealCard('card-qs1');
+        });
+
+        $(document).on('click', '.qs1-btn', function () {
+            var val = $(this).data('val');
+            $('.qs1-btn').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QS1"][value="' + val + '"]').prop('checked', true).trigger('change');
+            done.QS1 = true;
+            setTimeout(function () { revealCard('card-qzip'); }, 320);
+        });
+
+        $(document).on('input', '.zip-digit', function () {
+            var $box = $(this);
+            var raw  = $box.val().replace(/\D/g, '');
+            $box.val(raw.slice(0, 1));
+            $box.toggleClass('zip-filled', raw.length > 0);
+            if (raw.length === 1) {
+                var $next = $box.nextAll('.zip-digit').first();
+                if ($next.length) $next.focus();
+            }
+            syncZip();
+        });
+
+        $(document).on('keydown', '.zip-digit', function (e) {
+            if (e.key === 'Backspace' && !$(this).val())
+                $(this).prevAll('.zip-digit').first().focus();
+        });
+
+        function syncZip () {
+            var zip = '';
+            $('.zip-digit').each(function () { zip += $(this).val(); });
+            $('input[name="QZIP"], textarea[name="QZIP"]').val(zip).trigger('change');
+            if (zip.length === 5 && !done.QZIP) {
+                done.QZIP = true;
+                setTimeout(function () { revealCard('card-qage'); }, 300);
+            }
+        }
+
+        $(document).on('click', '.zip-why-trigger', function () {
+            $(this).closest('.zip-why-row').find('.zip-why-body').slideToggle(220);
+        });
+
+        $(document).on('change', '#zip-pna', function () {
+            if ($(this).is(':checked')) {
+                $('.zip-digit').val('').removeClass('zip-filled');
+                $('input[name="QZIP"], textarea[name="QZIP"]').val('PREF').trigger('change');
+                if (!done.QZIP) { done.QZIP = true; setTimeout(function () { revealCard('card-qage'); }, 300); }
+            } else {
+                $('input[name="QZIP"], textarea[name="QZIP"]').val('').trigger('change');
+                done.QZIP = false;
+            }
+        });
+        $(document).on('focus', '.zip-digit', function () { $('#zip-pna').prop('checked', false); });
+
+        $(document).on('input', '.age-digit', function () {
+            var $box = $(this);
+            var raw  = $box.val().replace(/\D/g, '');
+            $box.val(raw.slice(0, 1));
+            $box.toggleClass('age-filled', raw.length > 0);
+            var $next = $box.nextAll('.age-digit').first();
+            if (raw.length === 1 && $next.length) $next.focus();
+            syncAge();
+        });
+
+        $(document).on('keydown', '.age-digit', function (e) {
+            if (e.key === 'Backspace' && !$(this).val())
+                $(this).prevAll('.age-digit').first().focus();
+        });
+
+        function syncAge () {
+            var age = '';
+            $('.age-digit').each(function () { age += $(this).val(); });
+            $('input[id*="_QAGE_"], input[name="QAGE"]').val(age).trigger('change');
+            if (age.length === 2 && !done.QAGE) {
+                done.QAGE = true;
+                setTimeout(function () { revealCard('card-qgender'); }, 300);
+            }
+        }
+
+        $(document).on('change', '#age-pna', function () {
+            if ($(this).is(':checked')) {
+                $('.age-digit').val('').removeClass('age-filled');
+                if (!done.QAGE) { done.QAGE = true; setTimeout(function () { revealCard('card-qgender'); }, 300); }
+            }
+        });
+        $(document).on('focus', '.age-digit', function () { $('#age-pna').prop('checked', false); });
+
+        $(document).on('click', '#ballot-gender .ballot-row', function () {
+            var val = $(this).data('val');
+            $('#ballot-gender .ballot-row').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QGENDER"][value="' + val + '"]').prop('checked', true).trigger('change');
+            if (!done.QGENDER) {
+                done.QGENDER = true;
+                setTimeout(function () { revealCard('card-qvote24'); }, 360);
+            }
+        });
+
+        $(document).on('click', '#ballot-vote24 .ballot-row', function () {
+            var val = $(this).data('val');
+            $('#ballot-vote24 .ballot-row').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QVOTE24"][value="' + val + '"]').prop('checked', true).trigger('change');
+            if (!done.QVOTE24) {
+                done.QVOTE24 = true;
+                setTimeout(function () { revealCard('card-party'); }, 360);
+            }
+        });
+
+        $(document).on('click', '.party-main-btn', function () {
+            var val   = $(this).data('val');
+            var label = $(this).find('span').last().text().trim();
+            $('.party-main-btn').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QS5"][value="' + val + '"]').prop('checked', true).trigger('change');
+            $('#qs5a-pipe').text(label.replace(/\/.*/, '').trim());
+            $('.party-sub').slideUp(150, function () {
+                if (val === '1' || val === '2') {
+                    $('#party-sub-a').slideDown(280);
+                } else {
+                    $('#party-sub-b').slideDown(280);
+                }
+            });
+        });
+
+        $(document).on('click', '#party-sub-a .party-sub-btn', function () {
+            $('#party-sub-a .party-sub-btn').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QS5A"][value="' + $(this).data('val') + '"]').prop('checked', true).trigger('change');
+            done.PARTY = true; checkContinue();
+        });
+
+        $(document).on('click', '#party-sub-b .party-lean-btn', function () {
+            $('#party-sub-b .party-lean-btn').removeClass('sc-sel');
+            $(this).addClass('sc-sel');
+            $('input[name="QS5B"][value="' + $(this).data('val') + '"]').prop('checked', true).trigger('change');
+            done.PARTY = true; checkContinue();
+        });
+
+    });
+}(jQuery));
+</script>
+]]></style>
+
+
+
+
+<html label="sc_page_ui" where="survey"><![CDATA[
+
+<div id="sc-footer">
+  Your responses are held strictly confidential.
+  See our <a href="#" style="color:#191970;text-decoration:none;">Privacy Policy</a>
+  and commitment to research ethics and integrity.
+</div>
+
+<div id="sc-root">
+
+  <div id="sc-progress-wrap">
+    <div id="sc-progress-track"><div id="sc-progress-fill"></div></div>
+    <div id="sc-progress-label"></div>
+  </div>
+
+  <div class="sc-card sc-intro" id="card-intro">
+    <div class="intro-logo-wrap">
+      <img src="[rel prism-logo.svg]" alt="PRISM"
+           onerror="this.style.display='none'">
+    </div>
+    <p class="intro-body">
+      Thanks for taking part. This survey helps us understand how people
+      think about health&nbsp;care and public policy today. There are no
+      right or wrong answers&thinsp;&mdash;&thinsp;we&rsquo;re interested
+      in&nbsp;<em>your</em>&nbsp;point of view.<br><br>Let&rsquo;s begin.
+    </p>
+    <button id="sc-start-btn" type="button">READY. GET. GO!</button>
+  </div>
+
+  <div class="sc-card" id="card-qs1">
+    <div class="sc-q-label">1 of 6 Questions</div>
+    <div class="sc-q-text">Are you registered to vote?</div>
+
+    <div class="qs1-btn-group">
+
+      <div class="qs1-btn qs1-yes" data-val="1" tabindex="0" role="radio" aria-label="Yes">
+        <div class="qs1-shape">&#10003;</div>
+        <span class="qs1-btn-label">YES</span>
+      </div>
+
+      <div class="qs1-btn qs1-no" data-val="2" tabindex="0" role="radio" aria-label="No">
+        <div class="qs1-shape">&#10005;</div>
+        <span class="qs1-btn-label">NO</span>
+      </div>
+
+      <div class="qs1-btn qs1-ns" data-val="99" tabindex="0" role="radio" aria-label="Not Sure">
+        <div class="qs1-shape">Not Sure</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sc-card" id="card-qzip">
+    <div class="sc-q-label">2 of 6 Questions</div>
+    <div class="sc-q-text">Please enter your 5-digit Zip Code</div>
+    <p style="font-size:12.5px;color:#888;margin:-12px 0 14px;font-family:Inter,sans-serif;">
+      (the Zip Code of your primary residence where you are registered to vote)
+    </p>
+
+    <div class="zip-digits-row">
+      <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 1">
+      <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 2">
+      <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 3">
+      <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 4">
+      <input class="zip-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="ZIP digit 5">
+    </div>
+
+    <div class="zip-why-row">
+      <button class="zip-why-trigger" type="button">
+        <span class="zip-why-icon">?</span>
+        <span style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;">
+          WHY DO WE ASK THIS?
+        </span>
+      </button>
+      <div class="zip-why-body">
+        Your ZIP code helps us ensure we're hearing from people across different parts
+        of the country, building a representative sample.
+        <strong>FUN FACT:</strong> ZIP codes tie you to your congressional district, so we can ask
+        follow‑up questions about your community — they never reveal your name or exact address.
+      </div>
+    </div>
+
+    <label class="sc-pna-row">
+      <input class="sc-pna-chk" id="zip-pna" type="checkbox">
+      <span>Prefer not to answer</span>
+    </label>
+  </div>
+
+  <div class="sc-card" id="card-qage">
+    <div class="sc-q-label">3 of 6 Questions</div>
+    <div class="sc-q-text">What is your age?</div>
+    <div class="age-instruction">Enter two digits &mdash; e.g., &ldquo;4&rdquo; then &ldquo;5&rdquo; for age 45</div>
+
+    <div class="age-digits-row">
+      <input class="age-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="Age tens digit">
+      <input class="age-digit" type="tel" maxlength="1" inputmode="numeric"
+             pattern="[0-9]*" autocomplete="off" aria-label="Age units digit">
+    </div>
+
+    <label class="sc-pna-row">
+      <input class="sc-pna-chk" id="age-pna" type="checkbox">
+      <span>Prefer not to respond</span>
+    </label>
+  </div>
+
+  <div class="sc-card" id="card-qgender">
+    <div class="sc-q-label">4 of 6 Questions</div>
+    <div class="sc-q-text">Which of the following best describes your <strong>gender?</strong></div>
+
+    <div class="ballot-card-inner" id="ballot-gender">
+      <div class="ballot-edge-bars"></div>
+
+      <div class="ballot-row" data-val="1">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">Male</span>
+      </div>
+      <div class="ballot-row" data-val="2">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">Female</span>
+      </div>
+      <div class="ballot-row" data-val="3">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">Other</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sc-card" id="card-qvote24">
+    <div class="sc-q-label">5 of 6 Questions</div>
+    <div class="sc-q-text">Who did you vote for in the latest&nbsp;(2024) Presidential election?</div>
+
+    <div class="ballot-card-inner" id="ballot-vote24">
+      <div class="ballot-edge-bars"></div>
+
+      <div class="ballot-row" data-val="1">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">
+          Donald J Trump <span class="party-tag">(R)</span>
+        </span>
+      </div>
+      <div class="ballot-row" data-val="2">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">
+          Kamala Harris <span class="party-tag">(D)</span>
+        </span>
+      </div>
+      <div class="ballot-row" data-val="3">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">Another Candidate</span>
+      </div>
+      <div class="ballot-row" data-val="4">
+        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+        <span class="ballot-label">I didn&rsquo;t have the chance to vote in this election</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sc-card" id="card-party">
+    <div class="sc-q-label">6 of 6 Questions</div>
+    <div class="sc-q-text">In politics today, do you consider yourself a&hellip;?</div>
+
+    <div class="party-main-btns">
+
+      <div class="party-btn party-main-btn" data-val="1"
+           tabindex="0" role="radio" aria-label="Republican">
+        <img src="[rel icon-gop.svg]" alt="GOP"
+             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>🐘</span>'">
+        <span>Republican</span>
+      </div>
+
+      <div class="party-btn party-main-btn" data-val="2"
+           tabindex="0" role="radio" aria-label="Democrat">
+        <img src="[rel icon-dem.svg]" alt="DEM"
+             onerror="this.outerHTML='<span style=&quot;font-size:30px;line-height:1&quot;>🫏</span>'">
+        <span>Democrat</span>
+      </div>
+
+      <div class="party-btn party-ind party-main-btn" data-val="3"
+           tabindex="0" role="radio" aria-label="Independent / Other">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.05em;
+                     color:#555;text-transform:uppercase;text-align:center;
+                     line-height:1.4;">
+          Independent/<br>Other
+        </span>
+      </div>
+
+    </div>
+
+    <div class="party-sub" id="party-sub-a">
+      <div class="sc-q-text">
+        Would you say you are a strong or not-so-strong&nbsp;<span id="qs5a-pipe">Republican</span>?
+      </div>
+      <div class="party-sub-btns">
+        <div class="party-sub-btn" data-val="1">Strong</div>
+        <div class="party-sub-btn" data-val="2">Not&nbsp;so&nbsp;strong</div>
+      </div>
+    </div>
+
+    <div class="party-sub" id="party-sub-b">
+      <div class="sc-q-text">Do you lean toward the&hellip;</div>
+      <div class="party-lean-btns">
+
+        <div class="party-lean-btn" data-val="1">
+          <img src="[rel icon-gop.svg]" alt="GOP"
+               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>🐘</span>'">
+          <span>Republicans</span>
+        </div>
+
+        <div class="party-lean-btn" data-val="2">
+          <img src="[rel icon-dem.svg]" alt="DEM"
+               onerror="this.outerHTML='<span style=&quot;font-size:22px&quot;>🫏</span>'">
+          <span>Democrats</span>
+        </div>
+
+        <div class="party-lean-btn" data-val="3"
+             style="border-style:dashed; opacity:.85;">
+          <span style="font-size:22px;line-height:1;margin-right:4px;
+                       font-family:'Space Mono',monospace;font-weight:700;
+                       color:#888;">NO</span>
+          <span>I do not lean toward either</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+]]></html>
+
+
+
+<radio label="QS1" optional="1">
+  <title>Are you registered to vote?</title>
+  <row label="r1"  value="1">Yes</row>
+  <row label="r2"  value="2">No</row>
+  <row label="r99" value="99">Not Sure</row>
+</radio>
+
+<text label="QZIP" optional="1" size="5" verify="zipcode">
+  <title>Please enter your 5-digit ZIP Code</title>
+</text>
+
+<number label="QAGE" optional="1" size="3" verify="range(18,89)">
+  <title>What is your age?</title>
+</number>
+
+<radio label="QGENDER" optional="1">
+  <title>Which of the following best describes your gender?</title>
+  <row label="r1" value="1">Male</row>
+  <row label="r2" value="2">Female</row>
+  <row label="r3" value="3">Other</row>
+  <row label="r99" cond="0" value="99">Prefer not to answer</row>
+</radio>
+
+<radio label="QVOTE24" optional="1">
+  <title>Who did you vote for in the latest (2024) Presidential election?</title>
+  <row label="r1" value="1">Donald Trump (R)</row>
+  <row label="r2" value="2">Kamala Harris (D)</row>
+  <row label="r3" value="3">Someone else</row>
+  <row label="r4" value="4">I did not have the chance to vote</row>
+</radio>
+
+<radio label="QS5" optional="1">
+  <title>In politics today, do you consider yourself a&#x2026;?</title>
+  <row label="r1">Republican</row>
+  <row label="r2">Democrat</row>
+  <row label="r3">Independent</row>
+  <row label="r4">Other</row>
+</radio>
+
+<radio label="QS5A" optional="1" cond="QS5.r1 or QS5.r2">
+  <title>Would you say you are a strong or not-so strong [pipe: QS5]?</title>
+  <row label="r1">Strong</row>
+  <row label="r2">Not so strong</row>
+</radio>
+
+<radio label="QS5B" optional="1" cond="QS5.r3 or QS5.r4">
+  <title>Do you lean towards the Republican or Democratic Party?</title>
+  <row label="r1">Lean Republican</row>
+  <row label="r2">Lean Democrat</row>
+  <row label="r3">Neither Party</row>
+</radio>
+
+
+<suspend/>
+
+
+
+<exec cond="QS1.r2 or QS1.r99">
+vscreenout.val = str('QS1')
+setMarker('Screened-QS1')
+</exec>
+<term label="Term_QS1" cond="QS1.r2 or QS1.r99">QS1 termination</term>
+
+
+
+
+<exec cond="QVOTE24.r4">
+vscreenout.val = str('QVOTE24')
+setMarker('Screened-QVOTE24')
+</exec>
+<term label="Term_VOTE24" cond="QVOTE24.r4">Did not vote</term>
+
+<exec cond="QVOTE24.r3 and QS5B.r3">
+vscreenout.val = str('QS5')
+setMarker('Screened-QS5')
+</exec>
+<term label="Term_PARTYID" cond="QVOTE24.r3 and QS5B.r3">
+  Voted for someone else and is Independent
+</term>
+
+</survey>
+
