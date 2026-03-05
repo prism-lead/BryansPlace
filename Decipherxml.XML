@@ -286,81 +286,156 @@ body, .survey-body, .main-content {
     font-family: Inter, sans-serif;
 }
 
-/* --- Ballot-style cards (gender, vote) --- */
-.ballot-card-inner {
-    border: 2px solid #E0DCD6; border-radius: 8px;
-    padding: 6px 12px 6px 12px;
-    background: #fff; position: relative; overflow: hidden;
+/* --- Gender: STYLE.HORIZONTAL.RADIO --- */
+.gender-pills {
+    display: flex; gap: 12px;
+    justify-content: flex-start; flex-wrap: wrap;
 }
-.ballot-edge-bars { display: none; }
+.gender-pill {
+    padding: 10px 24px;
+    border: 2px solid #E0DCD6; border-radius: 24px;
+    background: #fff; cursor: pointer;
+    font-family: Inter, sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: #333333; text-align: center;
+    transition: border-color .18s, background .18s;
+    user-select: none;
+}
+.gender-pill:hover { border-color: #6B7F4E; }
+.gender-pill.sc-sel { border-color: #6B7F4E; background: #6B7F4E; color: #fff; }
+
+/* --- Vote24: CUSTOM.BALLOT --- */
+.ballot-card-inner {
+    border: 2px solid #333; border-radius: 3px;
+    padding: 10px 12px 10px 22px;
+    background: #fff; position: relative; overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+}
+.ballot-edge-bars {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
+    display: flex; flex-direction: column;
+    justify-content: space-around; padding: 6px 0;
+    pointer-events: none;
+}
+.ballot-edge-bar { width: 10px; height: 6px; background: #333; border-radius: 1px; margin-left: 2px; }
 .ballot-row {
     display: flex; align-items: center;
-    padding: 12px 8px; border-bottom: 1px solid #E0DCD6;
+    padding: 8px 4px; border-bottom: 1px solid #ddd;
     cursor: pointer; position: relative;
     transition: background .12s;
-    border-radius: 6px;
 }
 .ballot-row:last-child { border-bottom: none; }
-.ballot-row:hover { background: rgba(107,127,78,.05); }
-.ballot-oval-wrap { width: 44px; flex-shrink: 0; display: flex; justify-content: center; }
+.ballot-row:hover { background: rgba(0,0,0,.03); }
+.ballot-oval-wrap { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
 .ballot-oval {
-    width: 30px; height: 30px;
-    border: 2.5px solid #D5D0C8; border-radius: 50%;
+    width: 38px; height: 19px;
+    border: 2.5px solid #333; border-radius: 50%;
     background: transparent;
-    transition: background .15s, border-color .15s;
+    transition: background .15s;
 }
-.ballot-row.sc-sel .ballot-oval { background: #4CAF50; border-color: #4CAF50; }
+.ballot-row.sc-sel .ballot-oval { background: #333; }
 .ballot-label {
-    font-family: Inter, sans-serif;
-    font-size: 15px; color: #333333; font-weight: 500;
-    line-height: 1.3; padding-left: 4px; flex: 1;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px; color: #333333; font-weight: 600;
+    letter-spacing: .02em; line-height: 1.3; padding-left: 4px; flex: 1;
 }
-.ballot-label .party-tag { font-size: 12px; color: #888888; font-weight: 400; margin-left: 5px; }
+.ballot-label .party-tag { font-weight: 400; margin-left: 4px; }
+.ballot-row-muted .ballot-label { color: #999999; }
+.ballot-bottom-row {
+    display: flex; align-items: center;
+    padding: 8px 4px; cursor: pointer;
+    border-top: 1px solid #ddd;
+    transition: background .12s;
+}
+.ballot-bottom-row:hover { background: rgba(0,0,0,.03); }
+.ballot-bottom-row .ballot-label { color: #888888; font-size: 13px; }
+.ballot-bottom-row.sc-sel .ballot-label { color: #333333; }
+.ballot-bottom-row .ballot-oval-wrap { display: none; }
 
-/* --- Party ID --- */
+/* --- Party1: CUSTOM.PARTYID --- */
 .party-main-btns {
-    display: flex; gap: 16px;
-    justify-content: center; flex-wrap: wrap; margin-bottom: 6px;
+    display: flex; gap: 14px;
+    justify-content: flex-start; align-items: center;
+    flex-wrap: wrap; margin-bottom: 6px;
 }
 .party-btn {
-    display: flex; flex-direction: column;
-    align-items: center; gap: 8px; cursor: pointer;
-    padding: 16px 20px; border: 2px solid #E0DCD6;
-    border-radius: 10px; min-width: 90px; background: #fff;
-    transition: border-color .2s, box-shadow .2s, background .2s;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+    padding: 10px 16px; border: 2px solid #E0DCD6;
+    border-radius: 24px; background: #fff;
+    transition: border-color .2s, background .2s;
+    user-select: none;
 }
 .party-btn:hover { border-color: #6B7F4E; }
 .party-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; }
-.party-btn .party-icon { width: 44px; height: 44px; }
-.party-btn > span { font-family: Inter, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .05em; color: #333333; text-transform: uppercase; text-align: center; }
-.party-ind { min-width: unset !important; padding: 14px 22px !important; }
+.party-btn .party-icon { width: 28px; height: 28px; border-radius: 50%; }
+.party-btn > span { font-family: Inter, sans-serif; font-size: 14px; font-weight: 700; color: #333333; }
+.party-ind-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #D5D0C8; color: #555;
+    font-size: 9px; font-weight: 800; letter-spacing: .04em;
+    flex-shrink: 0;
+}
+
+/* --- Party2: strong/not-so-strong (radio circles) --- */
 .party-sub {
     display: none; margin-top: 18px;
     padding-top: 16px; border-top: 1px solid #E0DCD6;
 }
 .party-sub .sc-q-text { font-size: 16px; margin-bottom: 14px; }
-.party-sub-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.party-sub-btn {
-    flex: 1; min-width: 120px; padding: 12px 14px;
-    border: 2px solid #E0DCD6; border-radius: 8px;
-    background: #fff; cursor: pointer;
-    font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
-    color: #333333; text-align: center;
-    transition: border-color .18s, background .18s;
+.party-sub-radios {
+    display: flex; gap: 28px; align-items: center;
+    flex-wrap: wrap; margin-bottom: 14px;
 }
-.party-sub-btn:hover { border-color: #6B7F4E; }
-.party-sub-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; color: #5A6B42; }
-.party-lean-btns { display: flex; flex-direction: column; gap: 8px; }
+.party-sub-radio {
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer; user-select: none;
+}
+.party-sub-circle {
+    width: 28px; height: 28px;
+    border: 2.5px solid #D5D0C8; border-radius: 50%;
+    background: transparent;
+    transition: background .15s, border-color .15s;
+    flex-shrink: 0;
+}
+.party-sub-radio.sc-sel .party-sub-circle { background: #4CAF50; border-color: #4CAF50; }
+.party-sub-radio > span {
+    font-family: Inter, sans-serif; font-size: 15px; font-weight: 500; color: #333333;
+}
+.party-sub-icons {
+    display: flex; gap: 10px; align-items: center; margin-top: 4px;
+}
+.party-sub-icon-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border: 2px solid #E0DCD6;
+    border-radius: 20px; background: #fff;
+}
+.party-sub-icon-pill.sc-active { border-color: #6B7F4E; background: #F8F5F0; }
+.party-sub-icon-pill.sc-dim { opacity: .4; }
+.party-sub-icon-pill .party-icon { width: 22px; height: 22px; }
+.party-sub-icon-pill > span { font-family: Inter, sans-serif; font-size: 13px; font-weight: 600; color: #333333; }
+
+/* --- Party3: lean pills with icons --- */
+.party-lean-btns {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
 .party-lean-btn {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 14px; border: 2px solid #E0DCD6; border-radius: 8px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border: 2px solid #E0DCD6; border-radius: 24px;
     background: #fff; cursor: pointer;
     transition: border-color .18s, background .18s;
+    user-select: none;
 }
 .party-lean-btn:hover { border-color: #6B7F4E; }
 .party-lean-btn.sc-sel { border-color: #6B7F4E; background: #F8F5F0; }
-.party-lean-btn .party-icon { width: 28px; height: 28px; flex-shrink: 0; }
+.party-lean-btn .party-icon { width: 24px; height: 24px; flex-shrink: 0; }
 .party-lean-btn > span { font-size: 14px; font-weight: 600; color: #333333; font-family: Inter, sans-serif; }
+.party-lean-no-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #D5D0C8; color: #555;
+    font-size: 9px; font-weight: 800; flex-shrink: 0;
+}
 
 /* --- Footer --- */
 #sc-footer {
@@ -519,48 +594,70 @@ body, .survey-body, .main-content {
     } else { jQuery(ageD).prop('disabled',false); }
   });
 
-  /* QGENDER - ballot */
-  jQuery('#ballot-gender').on('click', '.ballot-row', function(){
-    jQuery('#ballot-gender .ballot-row').removeClass('sc-sel');
+  /* QGENDER - horizontal pills */
+  jQuery('#gender-pills').on('click', '.gender-pill', function(){
+    jQuery('#gender-pills .gender-pill').removeClass('sc-sel');
     jQuery(this).addClass('sc-sel');
     setRadio('QGENDER', jQuery(this).attr('data-val'));
     setTimeout(advance, 350);
   });
+  jQuery('#gender-pna').on('change', function(){
+    if(this.checked){ setTimeout(advance, 350); }
+  });
 
-  /* QVOTE24 - ballot */
-  jQuery('#ballot-vote24').on('click', '.ballot-row', function(){
-    jQuery('#ballot-vote24 .ballot-row').removeClass('sc-sel');
+  /* QVOTE24 - custom ballot */
+  jQuery('#ballot-vote24').on('click', '.ballot-row, .ballot-bottom-row', function(){
+    jQuery('#ballot-vote24 .ballot-row, #ballot-vote24 .ballot-bottom-row').removeClass('sc-sel');
     jQuery(this).addClass('sc-sel');
     setRadio('QVOTE24', jQuery(this).attr('data-val'));
     setTimeout(advance, 350);
   });
+  jQuery('#vote-pna').on('change', function(){
+    if(this.checked){ setTimeout(advance, 350); }
+  });
 
   /* QS5 / QS5A / QS5B - party identification */
+  var partyChoice = '';
   jQuery('#card-party').on('click', '.party-main-btn', function(){
     jQuery('#card-party .party-main-btn').removeClass('sc-sel');
     jQuery(this).addClass('sc-sel');
     var v = jQuery(this).attr('data-val');
+    partyChoice = v;
     setRadio('QS5', v);
+    jQuery('#party-pna-main').hide();
     if(v==='1'||v==='2'){
       jQuery('#party-sub-a').show();
       jQuery('#qs5a-pipe').text(v==='1' ? 'Republican' : 'Democrat');
+      jQuery('#pill-gop').removeClass('sc-active sc-dim');
+      jQuery('#pill-dem').removeClass('sc-active sc-dim');
+      if(v==='1'){ jQuery('#pill-gop').addClass('sc-active'); jQuery('#pill-dem').addClass('sc-dim'); }
+      else { jQuery('#pill-dem').addClass('sc-active'); jQuery('#pill-gop').addClass('sc-dim'); }
       jQuery('#party-sub-b').hide();
     } else {
       jQuery('#party-sub-a').hide();
       jQuery('#party-sub-b').show();
     }
   });
-  jQuery('#party-sub-a').on('click', '.party-sub-btn', function(){
-    jQuery('#party-sub-a .party-sub-btn').removeClass('sc-sel');
+  jQuery('#party-sub-a').on('click', '.party-sub-radio', function(){
+    jQuery('#party-sub-a .party-sub-radio').removeClass('sc-sel');
     jQuery(this).addClass('sc-sel');
     setRadio('QS5A', jQuery(this).attr('data-val'));
     enableNext();
+  });
+  jQuery('#party2-pna').on('change', function(){
+    if(this.checked){ enableNext(); }
   });
   jQuery('#party-sub-b').on('click', '.party-lean-btn', function(){
     jQuery('#party-sub-b .party-lean-btn').removeClass('sc-sel');
     jQuery(this).addClass('sc-sel');
     setRadio('QS5B', jQuery(this).attr('data-val'));
     enableNext();
+  });
+  jQuery('#party3-pna').on('change', function(){
+    if(this.checked){ enableNext(); }
+  });
+  jQuery('#party-pna').on('change', function(){
+    if(this.checked){ enableNext(); }
   });
 ]]></style>
 
@@ -680,52 +777,57 @@ body, .survey-body, .main-content {
 
   <div class="sc-card" id="card-qgender">
     <div class="sc-q-label">4 of 6 Questions</div>
-    <div class="sc-q-text">Which of the following best describes your gender?</div>
+    <div class="sc-q-text">What is your gender?</div>
 
-    <div class="ballot-card-inner" id="ballot-gender">
-
-      <div class="ballot-row" data-val="1">
-        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
-        <span class="ballot-label">Male</span>
-      </div>
-      <div class="ballot-row" data-val="2">
-        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
-        <span class="ballot-label">Female</span>
-      </div>
-      <div class="ballot-row" data-val="3">
-        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
-        <span class="ballot-label">Other</span>
-      </div>
+    <div class="gender-pills" id="gender-pills">
+      <div class="gender-pill" data-val="1">MALE</div>
+      <div class="gender-pill" data-val="2">FEMALE</div>
+      <div class="gender-pill" data-val="3">OTHER</div>
     </div>
+
+    <label class="sc-pna-row">
+      <input class="sc-pna-chk" id="gender-pna" type="checkbox">
+      <span>Prefer not to respond</span>
+    </label>
   </div>
 
   <div class="sc-card" id="card-qvote24">
     <div class="sc-q-label">5 of 6 Questions</div>
-    <div class="sc-q-text">Who did you vote for in the latest&nbsp;(2024) Presidential election?</div>
+    <div class="sc-q-text">Who did you vote for in the latest (2024) Presidential election?</div>
 
     <div class="ballot-card-inner" id="ballot-vote24">
+      <div class="ballot-edge-bars">
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+        <div class="ballot-edge-bar"></div>
+      </div>
 
       <div class="ballot-row" data-val="1">
         <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
-        <span class="ballot-label">
-          Donald J Trump <span class="party-tag">(R)</span>
-        </span>
+        <span class="ballot-label">Donald J Trump <span class="party-tag">(R)</span></span>
       </div>
       <div class="ballot-row" data-val="2">
         <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
-        <span class="ballot-label">
-          Kamala Harris <span class="party-tag">(D)</span>
-        </span>
+        <span class="ballot-label">Kamala Harris <span class="party-tag">(D)</span></span>
       </div>
-      <div class="ballot-row" data-val="3">
+      <div class="ballot-row ballot-row-muted" data-val="3">
         <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
         <span class="ballot-label">Another Candidate</span>
       </div>
-      <div class="ballot-row" data-val="4">
-        <div class="ballot-oval-wrap"><span class="ballot-oval"></span></div>
+      <div class="ballot-bottom-row" data-val="4">
         <span class="ballot-label">I didn&rsquo;t have the chance to vote in this election</span>
       </div>
     </div>
+
+    <label class="sc-pna-row">
+      <input class="sc-pna-chk" id="vote-pna" type="checkbox">
+      <span>Prefer not to respond</span>
+    </label>
   </div>
 
   <div class="sc-card" id="card-party">
@@ -733,62 +835,80 @@ body, .survey-body, .main-content {
     <div class="sc-q-text">In politics today, do you consider yourself a&hellip;?</div>
 
     <div class="party-main-btns">
-
       <div class="party-btn party-main-btn" data-val="1"
            tabindex="0" role="radio" aria-label="Republican">
         <img class="party-icon" src="[rel GOP_Icon.svg]" alt="GOP">
         <span>Republican</span>
       </div>
-
       <div class="party-btn party-main-btn" data-val="2"
            tabindex="0" role="radio" aria-label="Democrat">
         <img class="party-icon" src="[rel DEM_icon.svg]" alt="DEM">
         <span>Democrat</span>
       </div>
-
-      <div class="party-btn party-ind party-main-btn" data-val="3"
+      <div class="party-btn party-main-btn" data-val="3"
            tabindex="0" role="radio" aria-label="Independent / Other">
-        <span style="font-size:11px;font-weight:700;letter-spacing:.05em;
-                     color:#333333;text-transform:uppercase;text-align:center;
-                     line-height:1.4;">
-          Independent/<br>Other
-        </span>
+        <span class="party-ind-badge">IND</span>
+        <span>Independent/<br>Other</span>
       </div>
-
     </div>
+
+    <label class="sc-pna-row" id="party-pna-main">
+      <input class="sc-pna-chk" id="party-pna" type="checkbox">
+      <span>Prefer not to respond</span>
+    </label>
 
     <div class="party-sub" id="party-sub-a">
       <div class="sc-q-text">
-        Would you say you are a strong or not-so-strong&nbsp;<span id="qs5a-pipe">Republican</span>?
+        Would you say you are a strong or not-so-strong <span id="qs5a-pipe">Republican</span>?
       </div>
-      <div class="party-sub-btns">
-        <div class="party-sub-btn" data-val="1">Strong</div>
-        <div class="party-sub-btn" data-val="2">Not&nbsp;so&nbsp;strong</div>
+      <div class="party-sub-radios">
+        <div class="party-sub-radio" data-val="1">
+          <span class="party-sub-circle"></span>
+          <span>Strong</span>
+        </div>
+        <div class="party-sub-radio" data-val="2">
+          <span class="party-sub-circle"></span>
+          <span>Not-so-strong</span>
+        </div>
       </div>
+      <div class="party-sub-icons" id="party-sub-icons">
+        <div class="party-sub-icon-pill" id="pill-gop">
+          <img class="party-icon" src="[rel GOP_Icon.svg]" alt="GOP">
+          <span>Republican</span>
+        </div>
+        <div class="party-sub-icon-pill" id="pill-dem">
+          <img class="party-icon" src="[rel DEM_icon.svg]" alt="DEM">
+          <span>Democrat</span>
+        </div>
+      </div>
+
+      <label class="sc-pna-row">
+        <input class="sc-pna-chk" id="party2-pna" type="checkbox">
+        <span>Prefer not to respond</span>
+      </label>
     </div>
 
     <div class="party-sub" id="party-sub-b">
-      <div class="sc-q-text">Do you lean toward the&hellip;</div>
+      <div class="sc-q-text">Do you <strong>lean</strong> toward the&hellip;</div>
       <div class="party-lean-btns">
-
         <div class="party-lean-btn" data-val="1">
           <img class="party-icon" src="[rel GOP_Icon.svg]" alt="GOP">
           <span>Republicans</span>
         </div>
-
         <div class="party-lean-btn" data-val="2">
           <img class="party-icon" src="[rel DEM_icon.svg]" alt="DEM">
           <span>Democrats</span>
         </div>
-
-        <div class="party-lean-btn" data-val="3"
-             style="border-style:dashed;">
-          <span style="font-size:13px;font-weight:700;color:#999999;
-                       font-family:Inter,sans-serif;">Neither</span>
+        <div class="party-lean-btn" data-val="3">
+          <span class="party-lean-no-badge">NO</span>
           <span>I do not lean toward either</span>
         </div>
-
       </div>
+
+      <label class="sc-pna-row">
+        <input class="sc-pna-chk" id="party3-pna" type="checkbox">
+        <span>Prefer not to respond</span>
+      </label>
     </div>
 
   </div>
