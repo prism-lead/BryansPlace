@@ -218,18 +218,6 @@
     font-family: Inter, sans-serif; user-select: none;
 }
 .sc-pna-chk { width: 17px; height: 17px; accent-color: #191970; cursor: pointer; }
-.age-digits-row { display: flex; gap: 7px; margin-bottom: 14px; }
-.age-digit {
-    width: 58px; height: 70px;
-    border: 2px solid #ccc; border-radius: 8px;
-    font-size: 30px; font-weight: 700;
-    text-align: center; color: #333;
-    background: #f5f5f5; outline: none;
-    transition: border-color .18s, box-shadow .18s, background .18s;
-}
-.age-digit:focus { border-color: #555; background: #fff; box-shadow: 0 0 0 3px rgba(80,80,80,.12); }
-.age-digit.age-filled { background: #f0f0f0; border-color: #777; }
-.age-instruction { font-size: 12px; color: #aaa; margin: -10px 0 12px; font-family: Inter, sans-serif; }
 </style>
 ]]></html>
 
